@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pah Tum Cyber-Arena & AI Tournament Analytics</title>
+  <title>Pah Tum Cyber-Arena & AI Knockout Championship</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -96,6 +96,10 @@
       to { transform: scale(1.08); filter: brightness(1.4); }
     }
 
+    .timer-ring {
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
@@ -113,7 +117,7 @@
           <i data-lucide="hexagons" class="w-6 h-6"></i>
         </div>
         <span class="font-display font-black text-xl tracking-wider uppercase text-white">
-          PAH TUM <span class="text-cyan-400">ARENA</span>
+          PAH TUM <span class="text-cyan-400">CHAMPIONSHIP</span>
         </span>
       </div>
 
@@ -139,51 +143,51 @@
     <!-- =================================================================== -->
     <main id="view-menu" class="flex-grow flex flex-col items-center justify-center text-center py-8">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-tech font-bold uppercase tracking-widest mb-6">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Mesopotamian Cyber Strategy Engine
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Comprehensive Cyber Tournament Architecture
       </div>
       
       <h1 class="font-display font-black text-4xl sm:text-6xl tracking-wide uppercase max-w-4xl leading-tight bg-gradient-to-r from-white via-cyan-400 to-pink-500 bg-clip-text text-transparent drop-shadow-lg mb-4">
-        Pah Tum Championship
+        Pah Tum Cyber-Arena
       </h1>
       
       <p class="font-tech text-slate-400 text-lg sm:text-xl max-w-2xl mb-8 leading-relaxed">
-        Challenge high-performance neural bots or test your tactical edge in the ancient line-formation matrix. Real-time scoring, custom grid sizes, and deep telemetry analysis.
+        Full 3-mode knockout tournament engine (H v H, H v M, M v M). Featuring explicit Play/Pause state controls, strict 5s move timers, interactive knockout brackets, and instant simulation telemetry.
       </p>
 
       <div class="flex flex-wrap justify-center gap-4 mb-12">
         <button onclick="switchView('play')" class="flex items-center gap-3 px-8 py-4 rounded-xl font-display text-sm font-bold tracking-wider text-black bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-cyan-500/25 transform hover:-translate-y-0.5">
-          <i data-lucide="play-circle" class="w-5 h-5"></i> PLAY TOURNAMENT
+          <i data-lucide="trophy" class="w-5 h-5"></i> PLAY TOURNAMENT
         </button>
         <button onclick="switchView('analysis')" class="flex items-center gap-3 px-8 py-4 rounded-xl font-display text-sm font-bold tracking-wider text-slate-100 bg-slate-900 border border-purple-500/50 hover:border-pink-500 hover:bg-slate-800 transition-all duration-300 shadow-lg shadow-purple-500/20 transform hover:-translate-y-0.5">
-          <i data-lucide="cpu" class="w-5 h-5"></i> VIEW BOT ANALYSIS
+          <i data-lucide="cpu" class="w-5 h-5"></i> VIEW ANALYSIS
         </button>
       </div>
 
-      <!-- Pah Tum Game Rules Card -->
+      <!-- Pah Tum Rules & Feature Highlights Card -->
       <div class="w-full max-w-4xl bg-slate-900/70 border border-slate-800 rounded-2xl p-6 sm:p-8 backdrop-blur-md text-left">
         <h3 class="font-display text-cyan-400 text-lg font-bold flex items-center gap-2 mb-6 border-b border-slate-800 pb-3">
-          <i data-lucide="book-open" class="w-5 h-5"></i> Pah Tum Rules & Scoring Architecture
+          <i data-lucide="book-open" class="w-5 h-5"></i> Pah Tum Rules & System Specifications
         </h3>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-cyan-500">
             <h4 class="font-tech text-white font-bold text-base mb-1">1. Grid & Holes</h4>
-            <p class="text-xs text-slate-400 leading-relaxed">Played on 5x5 to 9x9 grids. Randomly blocked tiles ("black holes") are placed prior to the first move.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">5x5 to 9x9 grids. Randomly blocked tiles ("black holes") are placed prior to initial stone placement.</p>
           </div>
           
           <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-pink-500">
-            <h4 class="font-tech text-white font-bold text-base mb-1">2. Placement</h4>
-            <p class="text-xs text-slate-400 leading-relaxed">Players take turns placing one stone at a time on open tiles. Placed stones cannot be moved.</p>
+            <h4 class="font-tech text-white font-bold text-base mb-1">2. 3 Game Modes</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Support for Human vs Human (H v H), Human vs Machine (H v M), and Machine vs Machine (M v M Spectator).</p>
           </div>
 
           <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-amber-500">
-            <h4 class="font-tech text-white font-bold text-base mb-1">3. Line Points</h4>
-            <p class="text-xs text-slate-400 leading-relaxed">Points awarded for uninterrupted straight lines (horiz/vert):<br>• 3 stones = 3 pts<br>• 4 stones = 10 pts<br>• 5 stones = 25 pts</p>
+            <h4 class="font-tech text-white font-bold text-base mb-1">3. Playback Bar & 5s Timer</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Explicit Play, Pause, and Restart controls. Strict 5-second countdown forfeits turn if exceeded.</p>
           </div>
 
           <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-purple-500">
-            <h4 class="font-tech text-white font-bold text-base mb-1">4. Win Condition</h4>
-            <p class="text-xs text-slate-400 leading-relaxed">Game ends when all playable tiles are filled. Player with highest point total wins the round.</p>
+            <h4 class="font-tech text-white font-bold text-base mb-1">4. Knockout Telemetry</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Full bracket tree advancement (QF to Finals) with match history logs and average move time analytics.</p>
           </div>
         </div>
       </div>
@@ -194,70 +198,141 @@
     <!-- =================================================================== -->
     <main id="view-play" class="hidden flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
-      <!-- Sidebar Controls Panel -->
+      <!-- Sidebar Controls & Tournament Progression Panel -->
       <aside class="lg:col-span-4 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 backdrop-blur-md flex flex-col gap-5">
         
-        <!-- Board Size Selection -->
-        <div class="flex flex-col gap-2">
-          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i> Board Grid Size
-          </label>
-          <select id="board-size-select" onchange="handleBoardSizeChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white text-sm rounded-xl p-3 outline-none">
-            <option value="5">5 x 5 Grid (1-3 Black Holes)</option>
-            <option value="6">6 x 6 Grid (2-4 Black Holes)</option>
-            <option value="7" selected>7 x 7 Grid (3-6 Black Holes)</option>
-            <option value="8">8 x 8 Grid (4-8 Black Holes)</option>
-            <option value="9">9 x 9 Grid (5-10 Black Holes)</option>
-          </select>
-        </div>
+        <!-- Tournament Setup Controls -->
+        <div class="border-b border-slate-800 pb-4 flex flex-col gap-4">
+          <h3 class="font-display font-bold text-sm text-cyan-400 flex items-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4"></i> Tournament Configuration
+          </h3>
 
-        <!-- Player Type Selection -->
-        <div class="flex flex-col gap-2">
-          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i> Game Mode
-          </label>
-          <select id="game-mode-select" onchange="handleGameModeChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white text-sm rounded-xl p-3 outline-none">
-            <option value="pvp">Human vs. Human</option>
-            <option value="pve" selected>Human vs. Machine (AI)</option>
-          </select>
-        </div>
-
-        <!-- AI Opponent Selection -->
-        <div id="ai-profile-container" class="flex flex-col gap-2">
-          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <i data-lucide="bot" class="w-4 h-4 text-pink-400"></i> AI Opponent Profile
-          </label>
-          <select id="ai-opponent-select" onchange="updateSelectedBotProfile(this.value)" class="bg-slate-950 border border-slate-700 focus:border-pink-400 text-white text-sm rounded-xl p-3 outline-none">
-            <!-- Options populated by JS -->
-          </select>
-
-          <!-- Bot Profile Card -->
-          <div id="active-bot-card" class="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 mt-1 flex flex-col gap-1.5">
-            <!-- Populated by JS -->
+          <!-- Board Size Selection -->
+          <div class="flex flex-col gap-1.5">
+            <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="grid" class="w-3.5 h-3.5 text-cyan-400"></i> Board Grid Size
+            </label>
+            <select id="board-size-select" onchange="handleBoardSizeChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white text-xs rounded-xl p-2.5 outline-none">
+              <option value="5">5 x 5 Grid (1-3 Black Holes)</option>
+              <option value="6">6 x 6 Grid (2-4 Black Holes)</option>
+              <option value="7" selected>7 x 7 Grid (3-6 Black Holes)</option>
+              <option value="8">8 x 8 Grid (4-8 Black Holes)</option>
+              <option value="9">9 x 9 Grid (5-10 Black Holes)</option>
+            </select>
           </div>
+
+          <!-- Game Mode Selection -->
+          <div class="flex flex-col gap-1.5">
+            <label class="font-tech font-bold text-xs uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="swords" class="w-3.5 h-3.5 text-amber-400"></i> Game Mode
+            </label>
+            <select id="match-mode-select" onchange="handleMatchModeChange(this.value)" class="bg-slate-950 border border-amber-500/50 focus:border-amber-400 text-white font-bold text-xs rounded-xl p-2.5 outline-none">
+              <option value="H_v_H">Human vs. Human (H v H)</option>
+              <option value="H_v_M" selected>Human vs. Machine (H v M)</option>
+              <option value="M_v_M">Machine vs. Machine (M v M Spectator)</option>
+            </select>
+          </div>
+
+          <!-- Tournament Depth / Rounds Dropdown -->
+          <div class="flex flex-col gap-1.5">
+            <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-purple-400"></i> Match Depth (Best-of-X Rounds)
+            </label>
+            <select id="tournament-rounds-select" onchange="handleRoundsChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-purple-400 text-white text-xs rounded-xl p-2.5 outline-none">
+              <option value="1">1 Round (Single Game Knockout)</option>
+              <option value="2">2 Rounds (First to 2 Wins)</option>
+              <option value="3" selected>3 Rounds (Best of 3 Series)</option>
+              <option value="4">4 Rounds (Best of 4 Series)</option>
+              <option value="5">5 Rounds (Best of 5 Series)</option>
+            </select>
+          </div>
+
+          <!-- Turn Order Selector -->
+          <div class="flex flex-col gap-1.5">
+            <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="corner-down-right" class="w-3.5 h-3.5 text-pink-400"></i> Turn Order Rule
+            </label>
+            <select id="turn-order-select" onchange="handleTurnOrderChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-pink-400 text-white text-xs rounded-xl p-2.5 outline-none">
+              <option value="p1_first">Player 1 Always First</option>
+              <option value="p2_first">Player 2 Always First</option>
+              <option value="alternate" selected>Alternate Turns Each Round</option>
+              <option value="winner_first">Winner of Previous Game First</option>
+            </select>
+          </div>
+
+          <!-- AI Directory Profile Inspector -->
+          <div id="ai-profile-inspector" class="flex flex-col gap-1.5">
+            <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="bot" class="w-3.5 h-3.5 text-cyan-400"></i> AI Directory Profiles
+            </label>
+            <select id="ai-opponent-select" onchange="updateSelectedBotProfile(this.value)" class="bg-slate-950 border border-slate-700 text-white text-xs rounded-xl p-2.5 outline-none">
+              <!-- Populated by JS -->
+            </select>
+            <div id="active-bot-card" class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 mt-1 flex flex-col gap-1">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <button onclick="startNewKnockoutTournament()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black font-display font-bold text-xs uppercase px-4 py-3 rounded-xl shadow-lg shadow-cyan-500/20 transition-all mt-1">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Generate Bracket Structure
+          </button>
         </div>
 
-        <!-- Action Controls -->
-        <div class="flex flex-col gap-2.5 pt-2">
-          <button onclick="resetCurrentGame()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/30 px-4 py-3 rounded-xl font-tech font-bold text-sm tracking-wider transition-all">
-            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Restart Match
-          </button>
-          <button onclick="resetTournamentScores()" class="flex items-center justify-center gap-2 bg-slate-950 border border-slate-800 text-slate-400 hover:text-pink-400 hover:border-pink-500/30 px-4 py-2.5 rounded-xl font-tech font-semibold text-xs tracking-wider transition-all">
-            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Reset Cumulative Scores
+        <!-- Knockout Bracket Visualization Widget -->
+        <div class="flex flex-col gap-3">
+          <h3 class="font-display font-bold text-sm text-purple-400 flex items-center justify-between">
+            <span class="flex items-center gap-2"><i data-lucide="git-branch" class="w-4 h-4"></i> Knockout Progression</span>
+            <span id="bracket-stage-label" class="font-tech text-xs text-slate-400">Match Series</span>
+          </h3>
+
+          <div id="bracket-list" class="flex flex-col gap-2 max-h-52 overflow-y-auto pr-1">
+            <!-- Bracket items rendered by JS -->
+          </div>
+
+          <!-- Tournament Continuity Action Button -->
+          <button id="btn-next-bracket-match" onclick="proceedToNextMatch()" class="flex items-center justify-center gap-2 bg-purple-600/30 border border-purple-500/50 hover:bg-purple-600/50 text-purple-200 font-tech font-bold text-xs uppercase px-4 py-2.5 rounded-xl transition-all">
+            <i data-lucide="fast-forward" class="w-4 h-4"></i> Load Next Match
           </button>
         </div>
       </aside>
 
       <!-- Main Game Arena -->
-      <section class="lg:col-span-8 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-md flex flex-col items-center gap-6">
+      <section class="lg:col-span-8 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-md flex flex-col items-center gap-5">
         
-        <!-- Scoreboard Component -->
-        <div class="w-full bg-slate-950/90 border border-slate-800 rounded-xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+        <!-- PROMINENT TOURNAMENT PLAYBACK CONTROL BAR -->
+        <div class="w-full bg-slate-950/90 border border-cyan-500/30 rounded-xl p-3.5 flex items-center justify-between flex-wrap gap-4 shadow-lg shadow-cyan-500/10">
+          <div class="flex items-center gap-2">
+            <div id="playback-status-badge" class="px-3 py-1 rounded-full font-tech font-bold text-xs uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center gap-1.5">
+              <i data-lucide="pause-circle" class="w-3.5 h-3.5"></i> PAUSED / READY
+            </div>
+            <span id="active-mode-badge" class="px-2.5 py-1 rounded-full font-mono text-[10px] font-bold text-cyan-300 bg-cyan-950 border border-cyan-800">MODE: H v M</span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <!-- PLAY BUTTON -->
+            <button id="btn-play" onclick="playGame()" class="flex items-center gap-2 bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-300 hover:to-teal-400 text-black font-display font-bold text-xs uppercase px-5 py-2.5 rounded-xl shadow-md transition-all">
+              <i data-lucide="play" class="w-4 h-4"></i> Play
+            </button>
+            
+            <!-- PAUSE BUTTON -->
+            <button id="btn-pause" onclick="pauseGame()" class="flex items-center gap-2 bg-slate-800 border border-amber-500/40 hover:bg-amber-500/20 text-amber-300 font-display font-bold text-xs uppercase px-5 py-2.5 rounded-xl transition-all">
+              <i data-lucide="pause" class="w-4 h-4"></i> Pause
+            </button>
+
+            <!-- RESTART BUTTON -->
+            <button id="btn-restart" onclick="restartTournament()" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-pink-500/50 hover:text-pink-400 text-slate-300 font-display font-bold text-xs uppercase px-4 py-2.5 rounded-xl transition-all">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Restart Tournament
+            </button>
+          </div>
+        </div>
+
+        <!-- Scoreboard Component with Timer -->
+        <div class="w-full bg-slate-950/90 border border-slate-800 rounded-xl p-4 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
           
           <!-- Player 1 Card -->
-          <div id="card-p1" class="bg-slate-900/80 p-3 rounded-lg border-l-4 border-cyan-400 flex flex-col gap-1 transition-all">
+          <div id="card-p1" class="sm:col-span-5 bg-slate-900/80 p-3 rounded-lg border-l-4 border-cyan-400 flex flex-col gap-1 transition-all">
             <div class="flex items-center gap-2 font-display text-sm font-bold text-white">
-              <i data-lucide="user" class="w-4 h-4 text-cyan-400"></i> <span id="name-p1">Player 1</span>
+              <i data-lucide="user" id="icon-p1" class="w-4 h-4 text-cyan-400"></i> <span id="name-p1">Player 1</span>
             </div>
             <div class="flex items-center justify-between font-tech pt-1">
               <div>
@@ -275,16 +350,23 @@
             </div>
           </div>
 
-          <!-- Turn Status Center -->
-          <div class="text-center flex flex-col items-center justify-center">
-            <span class="font-tech text-xs uppercase tracking-widest text-slate-500 mb-1">STATUS</span>
-            <div id="turn-indicator" class="font-display font-black text-sm text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">
+          <!-- Turn Status Center with SVG Timer Ring -->
+          <div class="sm:col-span-2 text-center flex flex-col items-center justify-center relative">
+            <div class="relative w-12 h-12 flex items-center justify-center mb-1">
+              <svg class="w-12 h-12 transform -rotate-90">
+                <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.1)" stroke-width="3" fill="transparent" />
+                <circle id="timer-ring-circle" class="timer-ring" cx="24" cy="24" r="20" stroke="#00f0ff" stroke-width="3" fill="transparent" stroke-dasharray="125.6" stroke-dashoffset="0" />
+              </svg>
+              <span id="timer-text" class="absolute font-display font-bold text-sm text-cyan-400">5s</span>
+            </div>
+
+            <div id="turn-indicator" class="font-display font-black text-[11px] text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/30">
               P1 TURN
             </div>
           </div>
 
           <!-- Player 2 Card -->
-          <div id="card-p2" class="bg-slate-900/80 p-3 rounded-lg border-r-4 sm:border-r-4 sm:border-l-0 border-l-4 border-pink-500 flex flex-col gap-1 text-right sm:text-right transition-all">
+          <div id="card-p2" class="sm:col-span-5 bg-slate-900/80 p-3 rounded-lg border-r-4 sm:border-r-4 sm:border-l-0 border-l-4 border-pink-500 flex flex-col gap-1 text-right sm:text-right transition-all">
             <div class="flex items-center justify-end gap-2 font-display text-sm font-bold text-white">
               <span id="name-p2">AI_Bot_Alpha</span> <i data-lucide="bot" id="icon-p2" class="w-4 h-4 text-pink-400"></i>
             </div>
@@ -306,16 +388,25 @@
         </div>
 
         <!-- Pah Tum Board Container -->
-        <div class="p-4 bg-slate-950 border-2 border-cyan-500/30 rounded-2xl shadow-2xl flex justify-center items-center overflow-auto max-w-full">
+        <div class="p-4 bg-slate-950 border-2 border-cyan-500/30 rounded-2xl shadow-2xl flex justify-center items-center overflow-auto max-w-full relative">
+          
+          <!-- Popup Notification Overlay for Timeouts -->
+          <div id="toast-notification" class="absolute top-4 z-30 bg-red-600/90 text-white font-tech font-bold text-sm px-4 py-2 rounded-xl shadow-lg border border-red-400 hidden animate-bounce items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i> <span id="toast-text">Time's up! Turn passed.</span>
+          </div>
+
           <div id="board-grid" class="grid gap-2 bg-slate-900/60 p-3 rounded-xl">
             <!-- Dynamically generated grid -->
           </div>
         </div>
 
         <!-- Gameplay Status Bar -->
-        <div class="flex items-center gap-2 font-tech text-sm text-slate-300 bg-slate-950/60 px-4 py-2 rounded-lg border border-slate-800">
-          <i data-lucide="info" class="w-4 h-4 text-cyan-400"></i>
-          <span id="status-message">Click an open tile to place your stone.</span>
+        <div class="flex items-center gap-2 font-tech text-sm text-slate-300 bg-slate-950/60 px-4 py-2 rounded-lg border border-slate-800 w-full justify-between">
+          <div class="flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4 text-cyan-400"></i>
+            <span id="status-message">Click "Play" to start the match and timer.</span>
+          </div>
+          <span id="current-match-title" class="font-mono text-xs text-purple-400 font-bold uppercase">Quarter-Final Match 1</span>
         </div>
       </section>
 
@@ -332,7 +423,7 @@
           <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
             <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> Bot 1 (Player Alpha)
           </label>
-          <select id="sim-bot1-select" class="bg-slate-950 border border-slate-700 text-white text-sm rounded-xl p-3 outline-none">
+          <select id="sim-bot1-select" class="bg-slate-950 border border-slate-700 text-white text-xs rounded-xl p-2.5 outline-none">
             <!-- Populated by JS -->
           </select>
         </div>
@@ -341,7 +432,7 @@
           <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
             <i data-lucide="cpu" class="w-4 h-4 text-pink-400"></i> Bot 2 (Player Beta)
           </label>
-          <select id="sim-bot2-select" class="bg-slate-950 border border-slate-700 text-white text-sm rounded-xl p-3 outline-none">
+          <select id="sim-bot2-select" class="bg-slate-950 border border-slate-700 text-white text-xs rounded-xl p-2.5 outline-none">
             <!-- Populated by JS -->
           </select>
         </div>
@@ -350,10 +441,10 @@
           <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
             <i data-lucide="repeat" class="w-4 h-4 text-amber-400"></i> Simulation Count
           </label>
-          <input id="sim-count-input" type="number" min="10" max="2000" value="100" class="bg-slate-950 border border-slate-700 text-white text-sm rounded-xl p-3 outline-none">
+          <input id="sim-count-input" type="number" min="10" max="2000" value="100" class="bg-slate-950 border border-slate-700 text-white text-xs rounded-xl p-2.5 outline-none">
         </div>
 
-        <button onclick="runAutomatedSimulation()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black font-display font-bold text-sm tracking-wider px-6 py-3.5 rounded-xl shadow-lg shadow-cyan-500/20 transition-all">
+        <button onclick="runAutomatedSimulation()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black font-display font-bold text-xs tracking-wider px-6 py-3 rounded-xl shadow-lg shadow-cyan-500/20 transition-all">
           <i data-lucide="zap" class="w-4 h-4"></i> Run Simulation
         </button>
       </section>
@@ -439,127 +530,121 @@
 
   </div>
 
-  <!-- WINNER OVERLAY POPUP MODAL -->
-  <div id="winner-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border-2 border-cyan-400 rounded-2xl p-6 sm:p-8 max-w-md w-full text-center flex flex-col items-center gap-5 shadow-2xl shadow-cyan-500/20">
-      <div class="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-400 animate-bounce">
-        <i data-lucide="trophy" class="w-8 h-8"></i>
+  <!-- TOURNAMENT CHAMPION CELEBRATION & ANALYTICS MODAL -->
+  <div id="winner-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-cyan-400 rounded-2xl p-6 sm:p-8 max-w-2xl w-full text-center flex flex-col items-center gap-5 shadow-2xl shadow-cyan-500/30 max-h-[90vh] overflow-y-auto">
+      
+      <div id="modal-trophy-icon" class="w-20 h-20 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 animate-bounce">
+        <i data-lucide="trophy" class="w-10 h-10"></i>
       </div>
 
       <div>
         <h2 id="winner-modal-title" class="font-display font-black text-2xl text-white uppercase tracking-wide">
-          VICTORY DETECTED
+          TOURNAMENT CHAMPION
         </h2>
-        <p id="winner-modal-subtitle" class="font-tech text-cyan-400 text-base mt-1">
-          Player 1 Wins the Round!
+        <p id="winner-modal-subtitle" class="font-tech text-cyan-400 text-lg mt-1">
+          AI_Bot_Alpha Emerges Victorious!
         </p>
       </div>
 
       <div class="w-full bg-slate-950 p-4 rounded-xl flex justify-around items-center font-tech border border-slate-800">
         <div>
-          <div class="text-[10px] text-slate-400 uppercase">P1 Score</div>
+          <div class="text-[10px] text-slate-400 uppercase">Match P1</div>
           <div id="modal-score-p1" class="text-xl font-bold text-cyan-400">42 pts</div>
         </div>
-        <div class="text-amber-400 font-bold">VS</div>
+        <div class="text-amber-400 font-bold text-sm">FINAL SCORE</div>
         <div>
-          <div class="text-[10px] text-slate-400 uppercase">P2 Score</div>
+          <div class="text-[10px] text-slate-400 uppercase">Match P2</div>
           <div id="modal-score-p2" class="text-xl font-bold text-pink-400">18 pts</div>
         </div>
       </div>
 
+      <!-- Post-Tournament Game Analysis Dashboard inside Modal -->
+      <div class="w-full bg-slate-950/80 p-4 rounded-xl border border-slate-800 flex flex-col gap-3 text-left">
+        <h4 class="font-tech text-cyan-400 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+          <i data-lucide="bar-chart-2" class="w-4 h-4"></i> Post-Tournament Performance Breakdown
+        </h4>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 font-tech text-[10px] text-slate-400 uppercase">
+                <th class="py-1.5 px-2">Participant</th>
+                <th class="py-1.5 px-2">Avg Speed</th>
+                <th class="py-1.5 px-2">Blocks Placed</th>
+                <th class="py-1.5 px-2">Timeouts</th>
+              </tr>
+            </thead>
+            <tbody id="modal-metrics-tbody" class="divide-y divide-slate-800/40 text-xs">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="flex gap-3 w-full">
-        <button onclick="closeWinnerModal(); resetCurrentGame();" class="flex-1 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-display font-bold text-xs uppercase px-4 py-3 rounded-xl shadow-lg transition-all">
-          Play Next Round
+        <button onclick="closeWinnerModal(); startNewKnockoutTournament();" class="flex-1 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-display font-bold text-xs uppercase px-4 py-3.5 rounded-xl shadow-lg transition-all">
+          New Knockout Tournament
         </button>
-        <button onclick="closeWinnerModal(); switchView('analysis');" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-display font-bold text-xs uppercase px-4 py-3 rounded-xl transition-all">
-          View Analysis
+        <button onclick="closeWinnerModal(); switchView('analysis');" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-display font-bold text-xs uppercase px-4 py-3.5 rounded-xl transition-all">
+          View Analysis View
         </button>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT GAME ENGINE & APPLICATION CONTROLLER -->
+  <!-- JAVASCRIPT GAME ENGINE & AUTOMATED TOURNAMENT CONTROLLER -->
   <script>
     /* -------------------------------------------------------------
-       1. PRE-CODED AI DIRECTORY & PROFILES
+       1. AI DIRECTORY & PROFILES (5 PRE-CODED AI BOTS)
        ------------------------------------------------------------- */
     const AI_DIRECTORY = [
-      {
-        id: "AI_Bot_Alpha",
-        name: "AI_Bot_Alpha",
-        path: "/bots/alpha_v1/",
-        style: "Aggressive Expansion",
-        description: "Prioritizes blocking opponent lines early and seizing center grid chains.",
-        weightCenter: 1.8,
-        weightBlock: 2.5,
-        weightBuild: 1.5,
-        winBias: 0.72
-      },
-      {
-        id: "AI_Bot_Beta",
-        name: "AI_Bot_Beta",
-        path: "/bots/beta_v1/",
-        style: "Defensive Anchor",
-        description: "Focuses on fortifying tight clusters and neutralizing opponent point vectors.",
-        weightCenter: 1.2,
-        weightBlock: 3.0,
-        weightBuild: 1.2,
-        winBias: 0.65
-      },
-      {
-        id: "AI_Bot_Gamma",
-        name: "AI_Bot_Gamma",
-        path: "/bots/gamma_v2/",
-        style: "Balanced Neural Net",
-        description: "Maintains optimal equilibrium between line construction and blockades.",
-        weightCenter: 2.0,
-        weightBlock: 2.0,
-        weightBuild: 2.0,
-        winBias: 0.80
-      },
-      {
-        id: "AI_Bot_Delta",
-        name: "AI_Bot_Delta",
-        path: "/bots/delta_v1/",
-        style: "Flank Specialist",
-        description: "Exploits edge and perimeter avenues to build undisturbed line chains.",
-        weightCenter: 0.8,
-        weightBlock: 1.5,
-        weightBuild: 2.2,
-        winBias: 0.58
-      },
-      {
-        id: "AI_Bot_Epsilon",
-        name: "AI_Bot_Epsilon",
-        path: "/bots/epsilon_v3/",
-        style: "Quantum Predictor",
-        description: "Evaluates multi-step line utility to maximize net point differential.",
-        weightCenter: 2.2,
-        weightBlock: 2.8,
-        weightBuild: 2.5,
-        winBias: 0.88
-      }
+      { id: "AI_Bot_Alpha", name: "AI_Bot_Alpha", path: "/bots/alpha_v1/", style: "Aggressive Expansion", description: "Blocks opponent lines early and seizes center grid chains.", weightCenter: 1.8, weightBlock: 2.5, weightBuild: 1.5, winBias: 0.72 },
+      { id: "AI_Bot_Beta", name: "AI_Bot_Beta", path: "/bots/beta_v1/", style: "Defensive Anchor", description: "Fortifies tight clusters and neutralizes opponent point vectors.", weightCenter: 1.2, weightBlock: 3.0, weightBuild: 1.2, winBias: 0.65 },
+      { id: "AI_Bot_Gamma", name: "AI_Bot_Gamma", path: "/bots/gamma_v2/", style: "Balanced Neural Net", description: "Maintains optimal equilibrium between line construction and blockades.", weightCenter: 2.0, weightBlock: 2.0, weightBuild: 2.0, winBias: 0.80 },
+      { id: "AI_Bot_Delta", name: "AI_Bot_Delta", path: "/bots/delta_v1/", style: "Flank Specialist", description: "Exploits edge avenues to build undisturbed line chains.", weightCenter: 0.8, weightBlock: 1.5, weightBuild: 2.2, winBias: 0.58 },
+      { id: "AI_Bot_Epsilon", name: "AI_Bot_Epsilon", path: "/bots/epsilon_v3/", style: "Quantum Predictor", description: "Evaluates multi-step line utility to maximize net point differential.", weightCenter: 2.2, weightBlock: 2.8, weightBuild: 2.5, winBias: 0.88 }
     ];
+
+    const HUMAN_P1 = { id: "Human_P1", name: "Human Player 1", path: "/users/human_1/", style: "Tactical Strategist", description: "Local Human Player 1." };
+    const HUMAN_P2 = { id: "Human_P2", name: "Human Player 2", path: "/users/human_2/", style: "Local Rival", description: "Local Human Player 2." };
 
     const LINE_SCORES = { 3: 3, 4: 10, 5: 25, 6: 50, 7: 75, 8: 100, 9: 150 };
 
     /* -------------------------------------------------------------
-       2. STATE MANAGEMENT
+       2. GLOBAL STATE MACHINE & PLAYBACK CONTROLLER
        ------------------------------------------------------------- */
     let gameState = {
       size: 7,
-      mode: 'pve', // 'pvp' or 'pve'
+      targetRounds: 3,
+      turnOrderRule: 'alternate',
+      matchMode: 'H_v_M', // 'H_v_H', 'H_v_M', or 'M_v_M'
       selectedBotId: 'AI_Bot_Alpha',
       currentPlayer: 1,
+      firstPlayerOfRound: 1,
       board: [],
       gameScores: { 1: 0, 2: 0 },
       roundScores: { 1: 0, 2: 0 },
       cumulativeScores: { 1: 0, 2: 0 },
       isGameOver: false,
-      aiThinking: false
+      aiThinking: false,
+      currentMatchInfo: null,
+      
+      playbackState: 'paused', // 'playing' or 'paused'
+      aiTimeoutId: null
+    };
+
+    let tournamentState = {
+      participants: [],
+      bracket: [],
+      currentMatchIndex: 0,
+      matchHistory: [],
+      metrics: {}
     };
 
     let leaderboardData = {};
+    let turnTimerInterval = null;
+    let turnSecondsLeft = 5;
 
     /* -------------------------------------------------------------
        3. APPLICATION INITIALIZATION
@@ -568,8 +653,9 @@
       lucide.createIcons();
       populateBotDropdowns();
       updateSelectedBotProfile('AI_Bot_Alpha');
+      initParticipantMetrics();
       initLeaderboard();
-      resetCurrentGame();
+      startNewKnockoutTournament();
     });
 
     function switchView(viewName) {
@@ -589,6 +675,7 @@
       });
 
       if (viewName === 'analysis') {
+        renderGlobalAnalytics();
         runAutomatedSimulation();
       }
     }
@@ -608,8 +695,8 @@
         sim2Select.add(new Option(`${bot.name} [${bot.path}]`, bot.id));
       });
 
-      sim1Select.selectedIndex = 0; // Alpha
-      sim2Select.selectedIndex = 2; // Gamma
+      sim1Select.selectedIndex = 0;
+      sim2Select.selectedIndex = 2;
     }
 
     function updateSelectedBotProfile(botId) {
@@ -625,45 +712,222 @@
         <div class="font-mono text-[10px] text-amber-400">${bot.path}</div>
         <p class="text-[11px] text-slate-400 leading-snug">${bot.description}</p>
       `;
+    }
 
-      if (gameState.mode === 'pve') {
-        document.getElementById('name-p2').innerText = bot.name;
-      }
+    function initParticipantMetrics() {
+      const all = [HUMAN_P1, HUMAN_P2, ...AI_DIRECTORY];
+      all.forEach(p => {
+        tournamentState.metrics[p.id] = {
+          participant: p,
+          totalMoveTime: 0,
+          totalMoves: 0,
+          blocksPlaced: 0,
+          maxPathLength: 0,
+          timeouts: 0
+        };
+      });
     }
 
     /* -------------------------------------------------------------
-       4. GAME LOGIC & BOARD CONTROLLER
+       4. PLAYBACK CONTROLS (PLAY, PAUSE, RESTART)
        ------------------------------------------------------------- */
+    function playGame() {
+      if (gameState.playbackState === 'playing') return;
+
+      gameState.playbackState = 'playing';
+      updatePlaybackUI();
+
+      if (!gameState.isGameOver) {
+        startTurnTimer();
+        checkAutoTurnTrigger();
+      }
+    }
+
+    function pauseGame() {
+      gameState.playbackState = 'paused';
+      updatePlaybackUI();
+      stopTurnTimer();
+
+      if (gameState.aiTimeoutId) {
+        clearTimeout(gameState.aiTimeoutId);
+        gameState.aiTimeoutId = null;
+      }
+      gameState.aiThinking = false;
+    }
+
+    function restartTournament() {
+      pauseGame();
+      tournamentState.matchHistory = [];
+      initParticipantMetrics();
+      startNewKnockoutTournament();
+    }
+
+    function updatePlaybackUI() {
+      const badge = document.getElementById('playback-status-badge');
+      const modeBadge = document.getElementById('active-mode-badge');
+      const statusMsg = document.getElementById('status-message');
+      const match = gameState.currentMatchInfo;
+
+      const modeText = gameState.matchMode === 'H_v_H' ? 'H v H' : gameState.matchMode === 'H_v_M' ? 'H v M' : 'M v M';
+      modeBadge.innerText = `MODE: ${modeText}`;
+
+      if (gameState.playbackState === 'playing') {
+        badge.className = "px-3 py-1 rounded-full font-tech font-bold text-xs uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5 animate-pulse";
+        badge.innerHTML = `<i data-lucide="play-circle" class="w-3.5 h-3.5"></i> MATCH LIVE`;
+        if (match) {
+          const activeParticipant = gameState.currentPlayer === 1 ? match.p1 : match.p2;
+          statusMsg.innerText = `${activeParticipant ? activeParticipant.name : 'Player'}'s turn (5s countdown).`;
+        }
+      } else {
+        badge.className = "px-3 py-1 rounded-full font-tech font-bold text-xs uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center gap-1.5";
+        badge.innerHTML = `<i data-lucide="pause-circle" class="w-3.5 h-3.5"></i> PAUSED / READY`;
+        statusMsg.innerText = `Match paused. Click "Play" to start/resume turn and timer.`;
+      }
+      lucide.createIcons();
+    }
+
+    /* -------------------------------------------------------------
+       5. 3 MUTUALLY EXCLUSIVE MATCH MODES & BRACKET BUILDER
+       ------------------------------------------------------------- */
+    function handleMatchModeChange(val) {
+      gameState.matchMode = val;
+      startNewKnockoutTournament();
+    }
+
     function handleBoardSizeChange(val) {
       gameState.size = parseInt(val, 10);
-      resetCurrentGame();
+      resetCurrentMatchGame();
     }
 
-    function handleGameModeChange(val) {
-      gameState.mode = val;
-      const botContainer = document.getElementById('ai-profile-container');
-      const p2Name = document.getElementById('name-p2');
+    function handleRoundsChange(val) {
+      gameState.targetRounds = parseInt(val, 10);
+    }
 
-      if (val === 'pvp') {
-        botContainer.classList.add('hidden');
-        p2Name.innerText = 'Player 2';
-      } else {
-        botContainer.classList.remove('hidden');
-        const bot = AI_DIRECTORY.find(b => b.id === gameState.selectedBotId);
-        p2Name.innerText = bot ? bot.name : 'AI Opponent';
+    function handleTurnOrderChange(val) {
+      gameState.turnOrderRule = val;
+    }
+
+    function startNewKnockoutTournament() {
+      pauseGame();
+      const mode = gameState.matchMode;
+
+      if (mode === 'H_v_H') {
+        tournamentState.participants = [HUMAN_P1, HUMAN_P2];
+        tournamentState.bracket = [
+          { id: "FINAL", stage: "Championship Final Series", p1: HUMAN_P1, p2: HUMAN_P2, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'in_progress' }
+        ];
+      } else if (mode === 'H_v_M') {
+        // Guarantee HUMAN_P1 is placed as Player 1 in QF1 (index 0 of pool)
+        let bots = [...AI_DIRECTORY].sort(() => Math.random() - 0.5);
+        let pool = [HUMAN_P1, ...bots];
+        tournamentState.participants = pool;
+
+        tournamentState.bracket = [
+          { id: "QF1", stage: "Quarter-Final", p1: pool[0], p2: pool[1], winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'pending' },
+          { id: "QF2", stage: "Quarter-Final", p1: pool[2], p2: pool[3], winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'pending' },
+          { id: "SF1", stage: "Semi-Final", p1: pool[4], p2: null, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'waiting' },
+          { id: "SF2", stage: "Semi-Final", p1: pool[5], p2: null, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'waiting' },
+          { id: "FINAL", stage: "Championship Final", p1: null, p2: null, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'waiting' }
+        ];
+      } else if (mode === 'M_v_M') {
+        const spectatorZeta = { id: "AI_Bot_Zeta", name: "AI_Bot_Zeta", path: "/bots/zeta_v1/", style: "Speed Demon", weightCenter: 1.5, weightBlock: 2.0, weightBuild: 2.0, winBias: 0.75 };
+        let pool = [...AI_DIRECTORY, spectatorZeta].sort(() => Math.random() - 0.5);
+        tournamentState.participants = pool;
+
+        tournamentState.bracket = [
+          { id: "QF1", stage: "Quarter-Final", p1: pool[0], p2: pool[1], winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'pending' },
+          { id: "QF2", stage: "Quarter-Final", p1: pool[2], p2: pool[3], winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'pending' },
+          { id: "SF1", stage: "Semi-Final", p1: pool[4], p2: null, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'waiting' },
+          { id: "SF2", stage: "Semi-Final", p1: pool[5], p2: null, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'waiting' },
+          { id: "FINAL", stage: "Championship Final", p1: null, p2: null, winner: null, roundsWonP1: 0, roundsWonP2: 0, status: 'waiting' }
+        ];
       }
-      resetCurrentGame();
+
+      tournamentState.currentMatchIndex = 0;
+      renderBracketUI();
+      loadMatchAtIndex(0);
     }
 
-    function resetCurrentGame() {
+    function renderBracketUI() {
+      const bracketList = document.getElementById('bracket-list');
+      bracketList.innerHTML = '';
+
+      tournamentState.bracket.forEach((match, idx) => {
+        const isCurrent = idx === tournamentState.currentMatchIndex && match.status !== 'completed';
+        const div = document.createElement('div');
+        div.className = `p-2.5 rounded-xl border flex justify-between items-center text-xs transition-all ${
+          isCurrent 
+            ? 'bg-purple-950/80 border-purple-500/80 text-white glow-cyan' 
+            : match.status === 'completed'
+            ? 'bg-slate-950/60 border-slate-800 text-slate-400'
+            : 'bg-slate-950/30 border-slate-800/50 text-slate-500'
+        }`;
+
+        const p1Name = match.p1 ? match.p1.name : 'TBD';
+        const p2Name = match.p2 ? match.p2.name : 'TBD';
+        const statusBadge = match.status === 'completed' 
+          ? `<span class="text-[10px] font-tech text-cyan-400 font-bold">W: ${match.winner.name}</span>`
+          : isCurrent
+          ? `<span class="text-[10px] font-tech text-amber-400 font-bold">ACTIVE</span>`
+          : `<span class="text-[10px] font-tech text-slate-500">PENDING</span>`;
+
+        div.innerHTML = `
+          <div class="flex flex-col">
+            <span class="font-mono text-[9px] text-purple-400 uppercase font-bold">${match.stage} (${match.id})</span>
+            <span class="font-tech font-bold text-slate-200 mt-0.5">${p1Name} vs ${p2Name}</span>
+          </div>
+          <div class="text-right">
+            ${statusBadge}
+          </div>
+        `;
+        bracketList.appendChild(div);
+      });
+
+      const currMatch = tournamentState.bracket[tournamentState.currentMatchIndex];
+      if (currMatch) {
+        document.getElementById('bracket-stage-label').innerText = currMatch.stage;
+      }
+    }
+
+    function loadMatchAtIndex(index) {
+      if (index >= tournamentState.bracket.length) return;
+
+      const match = tournamentState.bracket[index];
+      match.status = 'in_progress';
+      gameState.currentMatchInfo = match;
+
+      document.getElementById('name-p1').innerText = match.p1.name;
+      document.getElementById('name-p2').innerText = match.p2 ? match.p2.name : 'TBD';
+
+      const iconP1 = document.getElementById('icon-p1');
+      const iconP2 = document.getElementById('icon-p2');
+
+      const isHumanP1 = match.p1.id.startsWith('Human');
+      const isHumanP2 = match.p2 && match.p2.id.startsWith('Human');
+
+      iconP1.setAttribute('data-lucide', isHumanP1 ? 'user' : 'bot');
+      iconP2.setAttribute('data-lucide', isHumanP2 ? 'user' : 'bot');
+      lucide.createIcons();
+
+      document.getElementById('current-match-title').innerText = `${match.stage} (${match.p1.name} vs ${match.p2 ? match.p2.name : 'TBD'})`;
+
+      gameState.roundScores = { 1: 0, 2: 0 };
+      gameState.cumulativeScores = { 1: 0, 2: 0 };
+      gameState.firstPlayerOfRound = 1;
+
+      resetCurrentMatchGame();
+      renderBracketUI();
+    }
+
+    function resetCurrentMatchGame() {
+      stopTurnTimer();
       const size = gameState.size;
       gameState.board = Array(size).fill(0).map(() => Array(size).fill(0));
-      gameState.currentPlayer = 1;
       gameState.isGameOver = false;
       gameState.aiThinking = false;
       gameState.gameScores = { 1: 0, 2: 0 };
 
-      // Generate random blocked black holes (e.g. 5x5 -> 1-3, 7x7 -> 3-6)
+      // Generate random black holes
       let minHoles = Math.floor(size / 2);
       let maxHoles = size + 1;
       let holesCount = Math.floor(Math.random() * (maxHoles - minHoles + 1)) + minHoles;
@@ -678,11 +942,106 @@
         }
       }
 
+      determineStartingPlayer();
       renderBoard();
       updateScoreboardDisplay();
-      document.getElementById('status-message').innerText = `Round initialized (${size}x${size}). Player 1's turn.`;
+
+      if (gameState.playbackState === 'playing') {
+        startTurnTimer();
+        checkAutoTurnTrigger();
+      } else {
+        updatePlaybackUI();
+      }
     }
 
+    function determineStartingPlayer() {
+      const rule = gameState.turnOrderRule;
+      if (rule === 'p1_first') {
+        gameState.currentPlayer = 1;
+      } else if (rule === 'p2_first') {
+        gameState.currentPlayer = 2;
+      } else if (rule === 'alternate') {
+        gameState.currentPlayer = gameState.firstPlayerOfRound;
+      } else if (rule === 'winner_first') {
+        gameState.currentPlayer = gameState.lastWinner || 1;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       6. 5-SECOND TURN TIMER & MOVE TIMEOUTS
+       ------------------------------------------------------------- */
+    function startTurnTimer() {
+      stopTurnTimer();
+      turnSecondsLeft = 5;
+      updateTimerUI();
+
+      turnTimerInterval = setInterval(() => {
+        if (gameState.playbackState !== 'playing') return;
+
+        turnSecondsLeft--;
+        updateTimerUI();
+
+        if (turnSecondsLeft <= 0) {
+          handleMoveTimeout();
+        }
+      }, 1000);
+    }
+
+    function stopTurnTimer() {
+      if (turnTimerInterval) {
+        clearInterval(turnTimerInterval);
+        turnTimerInterval = null;
+      }
+    }
+
+    function updateTimerUI() {
+      document.getElementById('timer-text').innerText = `${turnSecondsLeft}s`;
+      const circle = document.getElementById('timer-ring-circle');
+      const offset = 125.6 - (125.6 * turnSecondsLeft / 5);
+      circle.style.strokeDashoffset = offset;
+      
+      if (turnSecondsLeft <= 2) {
+        circle.setAttribute('stroke', '#ff007f');
+      } else {
+        circle.setAttribute('stroke', '#00f0ff');
+      }
+    }
+
+    function handleMoveTimeout() {
+      stopTurnTimer();
+      const match = gameState.currentMatchInfo;
+      const currentParticipant = gameState.currentPlayer === 1 ? match.p1 : match.p2;
+
+      if (currentParticipant && tournamentState.metrics[currentParticipant.id]) {
+        tournamentState.metrics[currentParticipant.id].timeouts++;
+      }
+
+      showToast(`Time's up! ${currentParticipant ? currentParticipant.name : 'Player'} forfeited turn.`);
+
+      gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
+      updateTurnDisplay();
+
+      if (gameState.playbackState === 'playing') {
+        startTurnTimer();
+        checkAutoTurnTrigger();
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-text').innerText = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2500);
+    }
+
+    /* -------------------------------------------------------------
+       7. BOARD RENDER & TILE CLICK CONTROLLER
+       ------------------------------------------------------------- */
     function renderBoard() {
       const boardGrid = document.getElementById('board-grid');
       const size = gameState.size;
@@ -729,13 +1088,45 @@
 
     function handleTileClick(r, c) {
       if (gameState.isGameOver || gameState.aiThinking) return;
+      if (gameState.playbackState !== 'playing') {
+        showToast("Click 'Play' on the control bar to start the game.");
+        return;
+      }
+
+      const match = gameState.currentMatchInfo;
+      const activeParticipant = gameState.currentPlayer === 1 ? match.p1 : match.p2;
+
+      if (!activeParticipant.id.startsWith('Human')) return;
       if (gameState.board[r][c] !== 0) return;
 
+      recordMoveTelemetry(activeParticipant.id, 5 - turnSecondsLeft);
       makeMove(r, c, gameState.currentPlayer);
+    }
 
-      if (!gameState.isGameOver && gameState.mode === 'pve' && gameState.currentPlayer === 2) {
-        triggerAIMove();
+    function checkAutoTurnTrigger() {
+      if (gameState.isGameOver || gameState.playbackState !== 'playing') return;
+
+      const match = gameState.currentMatchInfo;
+      if (!match) return;
+
+      const activeParticipant = gameState.currentPlayer === 1 ? match.p1 : match.p2;
+
+      if (activeParticipant && !activeParticipant.id.startsWith('Human')) {
+        triggerAIMove(activeParticipant);
       }
+    }
+
+    function triggerAIMove(bot) {
+      gameState.aiThinking = true;
+      gameState.aiTimeoutId = setTimeout(() => {
+        if (gameState.isGameOver || gameState.playbackState !== 'playing') return;
+        const move = computeBestAIMove(gameState.board, gameState.currentPlayer, bot.id);
+        if (move) {
+          recordMoveTelemetry(bot.id, 1);
+          makeMove(move.r, move.c, gameState.currentPlayer);
+        }
+        gameState.aiThinking = false;
+      }, 400);
     }
 
     function makeMove(r, c, player) {
@@ -747,10 +1138,15 @@
 
       if (isBoardFull()) {
         gameState.isGameOver = true;
+        stopTurnTimer();
         handleRoundEnd();
       } else {
         gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
         updateTurnDisplay();
+        if (gameState.playbackState === 'playing') {
+          startTurnTimer();
+          checkAutoTurnTrigger();
+        }
       }
 
       renderBoard();
@@ -764,21 +1160,17 @@
       const p1Card = document.getElementById('card-p1');
       const p2Card = document.getElementById('card-p2');
       const turnIndicator = document.getElementById('turn-indicator');
-      const statusMsg = document.getElementById('status-message');
 
       if (gameState.currentPlayer === 1) {
         p1Card.classList.add('border-cyan-400', 'bg-slate-850');
         p2Card.classList.remove('border-pink-500', 'bg-slate-850');
         turnIndicator.innerText = "P1 TURN";
-        turnIndicator.className = "font-display font-black text-sm text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30";
-        statusMsg.innerText = "Player 1's turn. Select an empty tile.";
+        turnIndicator.className = "font-display font-black text-xs text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-full border border-cyan-500/30";
       } else {
         p2Card.classList.add('border-pink-500', 'bg-slate-850');
         p1Card.classList.remove('border-cyan-400', 'bg-slate-850');
-        const p2Name = gameState.mode === 'pve' ? gameState.selectedBotId : 'Player 2';
-        turnIndicator.innerText = gameState.mode === 'pve' ? "AI THINKING..." : "P2 TURN";
-        turnIndicator.className = "font-display font-black text-sm text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/30";
-        statusMsg.innerText = `${p2Name}'s turn.`;
+        turnIndicator.innerText = "P2 TURN";
+        turnIndicator.className = "font-display font-black text-xs text-pink-400 bg-pink-500/10 px-2.5 py-0.5 rounded-full border border-pink-500/30";
       }
     }
 
@@ -794,91 +1186,63 @@
     }
 
     /* -------------------------------------------------------------
-       5. PAH TUM SCORING ENGINE
+       8. PAH TUM SCORING ENGINE
        ------------------------------------------------------------- */
     function calculateFullScores(board) {
       const size = board.length;
       let scores = { 1: 0, 2: 0 };
       let scoredTiles = new Set();
 
-      // Check Horizontal Lines
       for (let r = 0; r < size; r++) {
-        let currentOwner = 0;
-        let lineLength = 0;
-        let lineIndices = [];
-
+        let currentOwner = 0, lineLength = 0, lineIndices = [];
         for (let c = 0; c < size; c++) {
           let cell = board[r][c];
-
           if (cell === 1 || cell === 2) {
-            if (cell === currentOwner) {
-              lineLength++;
-              lineIndices.push(`${r},${c}`);
-            } else {
+            if (cell === currentOwner) { lineLength++; lineIndices.push(`${r},${c}`); }
+            else {
               if (lineLength >= 3 && currentOwner > 0) {
-                let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
-                scores[currentOwner] += pts;
+                scores[currentOwner] += (LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25));
                 lineIndices.forEach(idx => scoredTiles.add(idx));
               }
-              currentOwner = cell;
-              lineLength = 1;
-              lineIndices = [`${r},${c}`];
+              currentOwner = cell; lineLength = 1; lineIndices = [`${r},${c}`];
             }
           } else {
             if (lineLength >= 3 && currentOwner > 0) {
-              let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
-              scores[currentOwner] += pts;
+              scores[currentOwner] += (LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25));
               lineIndices.forEach(idx => scoredTiles.add(idx));
             }
-            currentOwner = 0;
-            lineLength = 0;
-            lineIndices = [];
+            currentOwner = 0; lineLength = 0; lineIndices = [];
           }
         }
         if (lineLength >= 3 && currentOwner > 0) {
-          let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
-          scores[currentOwner] += pts;
+          scores[currentOwner] += (LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25));
           lineIndices.forEach(idx => scoredTiles.add(idx));
         }
       }
 
-      // Check Vertical Lines
       for (let c = 0; c < size; c++) {
-        let currentOwner = 0;
-        let lineLength = 0;
-        let lineIndices = [];
-
+        let currentOwner = 0, lineLength = 0, lineIndices = [];
         for (let r = 0; r < size; r++) {
           let cell = board[r][c];
-
           if (cell === 1 || cell === 2) {
-            if (cell === currentOwner) {
-              lineLength++;
-              lineIndices.push(`${r},${c}`);
-            } else {
+            if (cell === currentOwner) { lineLength++; lineIndices.push(`${r},${c}`); }
+            else {
               if (lineLength >= 3 && currentOwner > 0) {
-                let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
-                scores[currentOwner] += pts;
+                scores[currentOwner] += (LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25));
                 lineIndices.forEach(idx => scoredTiles.add(idx));
               }
-              currentOwner = cell;
-              lineLength = 1;
-              lineIndices = [`${r},${c}`];
+              currentOwner = cell; lineLength = 1; lineIndices = [`${r},${c}`];
             }
           } else {
             if (lineLength >= 3 && currentOwner > 0) {
-              let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
-              scores[currentOwner] += pts;
+              scores[currentOwner] += (LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25));
               lineIndices.forEach(idx => scoredTiles.add(idx));
             }
-            currentOwner = 0;
-            lineLength = 0;
-            lineIndices = [];
+            currentOwner = 0; lineLength = 0; lineIndices = [];
           }
         }
         if (lineLength >= 3 && currentOwner > 0) {
-          let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
-          scores[currentOwner] += pts;
+          scores[currentOwner] += (LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25));
           lineIndices.forEach(idx => scoredTiles.add(idx));
         }
       }
@@ -887,24 +1251,12 @@
     }
 
     /* -------------------------------------------------------------
-       6. AI ENGINE & HEURISTICS
+       9. AI HEURISTICS EVALUATION
        ------------------------------------------------------------- */
-    function triggerAIMove() {
-      gameState.aiThinking = true;
-      setTimeout(() => {
-        const move = computeBestAIMove(gameState.board, 2, gameState.selectedBotId);
-        if (move) {
-          makeMove(move.r, move.c, 2);
-        }
-        gameState.aiThinking = false;
-      }, 350);
-    }
-
     function computeBestAIMove(board, aiPlayer, botId) {
       const size = board.length;
       const bot = AI_DIRECTORY.find(b => b.id === botId) || AI_DIRECTORY[0];
       const opponent = aiPlayer === 1 ? 2 : 1;
-
       let validMoves = [];
 
       for (let r = 0; r < size; r++) {
@@ -943,42 +1295,124 @@
       return score;
     }
 
+    function recordMoveTelemetry(participantId, timeSpent) {
+      if (!tournamentState.metrics[participantId]) return;
+      tournamentState.metrics[participantId].totalMoveTime += timeSpent;
+      tournamentState.metrics[participantId].totalMoves++;
+    }
+
     /* -------------------------------------------------------------
-       7. ROUND END & WINNER OVERLAY
+       10. ROUND END & KNOCKOUT BRACKET PROGRESSION
        ------------------------------------------------------------- */
     function handleRoundEnd() {
-      const p1 = gameState.gameScores[1];
-      const p2 = gameState.gameScores[2];
+      const p1Score = gameState.gameScores[1];
+      const p2Score = gameState.gameScores[2];
+      const match = gameState.currentMatchInfo;
 
-      if (p1 > p2) gameState.roundScores[1]++;
-      else if (p2 > p1) gameState.roundScores[2]++;
-
-      gameState.cumulativeScores[1] += p1;
-      gameState.cumulativeScores[2] += p2;
-      updateScoreboardDisplay();
-
-      const modal = document.getElementById('winner-modal');
-      const title = document.getElementById('winner-modal-title');
-      const subtitle = document.getElementById('winner-modal-subtitle');
-      const p2Name = gameState.mode === 'pve' ? gameState.selectedBotId : 'Player 2';
-
-      if (p1 > p2) {
-        title.innerText = "PLAYER 1 VICTORY";
-        subtitle.innerText = `Player 1 defeated ${p2Name} (${p1} vs ${p2} pts)`;
-      } else if (p2 > p1) {
-        title.innerText = `${p2Name.toUpperCase()} VICTORY`;
-        subtitle.innerText = `${p2Name} won the match (${p2} vs ${p1} pts)`;
-      } else {
-        title.innerText = "MATCH DRAW";
-        subtitle.innerText = `Both players tied at ${p1} points`;
+      if (p1Score > p2Score) {
+        gameState.roundScores[1]++;
+        gameState.lastWinner = 1;
+      } else if (p2Score > p1Score) {
+        gameState.roundScores[2]++;
+        gameState.lastWinner = 2;
       }
 
-      document.getElementById('modal-score-p1').innerText = `${p1} pts`;
-      document.getElementById('modal-score-p2').innerText = `${p2} pts`;
+      gameState.cumulativeScores[1] += p1Score;
+      gameState.cumulativeScores[2] += p2Score;
+      updateScoreboardDisplay();
+
+      gameState.firstPlayerOfRound = gameState.firstPlayerOfRound === 1 ? 2 : 1;
+
+      const reqWins = Math.ceil(gameState.targetRounds / 2);
+      if (gameState.roundScores[1] >= reqWins || gameState.roundScores[2] >= reqWins) {
+        const matchWinner = gameState.roundScores[1] >= reqWins ? match.p1 : match.p2;
+        match.winner = matchWinner;
+        match.status = 'completed';
+
+        tournamentState.matchHistory.unshift({
+          stage: match.stage,
+          matchup: `${match.p1.name} vs ${match.p2.name}`,
+          score: `${gameState.roundScores[1]} - ${gameState.roundScores[2]} (${gameState.cumulativeScores[1]}-${gameState.cumulativeScores[2]} pts)`,
+          winner: matchWinner.name
+        });
+
+        advanceKnockoutBracket(match, matchWinner);
+      } else {
+        showToast(`Round Over! Starting Round ${gameState.roundScores[1] + gameState.roundScores[2] + 1}...`);
+        setTimeout(() => resetCurrentMatchGame(), 1500);
+      }
+    }
+
+    function advanceKnockoutBracket(completedMatch, winner) {
+      renderBracketUI();
+
+      if (gameState.matchMode !== 'H_v_H') {
+        if (completedMatch.id === 'QF1') {
+          tournamentState.bracket[2].p2 = winner;
+        } else if (completedMatch.id === 'QF2') {
+          tournamentState.bracket[3].p2 = winner;
+        } else if (completedMatch.id === 'SF1') {
+          tournamentState.bracket[4].p1 = winner;
+        } else if (completedMatch.id === 'SF2') {
+          tournamentState.bracket[4].p2 = winner;
+        }
+      }
+
+      renderBracketUI();
+
+      if (completedMatch.id === 'FINAL') {
+        showTournamentChampionModal(winner);
+      } else {
+        showToast(`${winner.name} ADVANCES TO NEXT ROUND!`);
+      }
+    }
+
+    function proceedToNextMatch() {
+      if (tournamentState.currentMatchIndex < tournamentState.bracket.length - 1) {
+        tournamentState.currentMatchIndex++;
+        loadMatchAtIndex(tournamentState.currentMatchIndex);
+      } else {
+        showToast("Tournament complete! Click 'Restart Tournament' to replay.");
+      }
+    }
+
+    function showTournamentChampionModal(champion) {
+      pauseGame();
+      const modal = document.getElementById('winner-modal');
+      document.getElementById('winner-modal-title').innerText = "TOURNAMENT CHAMPION";
+      document.getElementById('winner-modal-subtitle').innerText = `👑 ${champion.name} Wins the Pah Tum Championship!`;
+
+      document.getElementById('modal-score-p1').innerText = `${gameState.cumulativeScores[1]} pts`;
+      document.getElementById('modal-score-p2').innerText = `${gameState.cumulativeScores[2]} pts`;
+
+      renderModalMetrics();
 
       modal.classList.remove('hidden');
       modal.classList.add('flex');
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+    }
+
+    function renderModalMetrics() {
+      const tbody = document.getElementById('modal-metrics-tbody');
+      tbody.innerHTML = '';
+
+      Object.values(tournamentState.metrics).forEach(item => {
+        if (item.totalMoves > 0 || item.timeouts > 0) {
+          const p = item.participant;
+          const avgTime = item.totalMoves > 0 ? (item.totalMoveTime / item.totalMoves).toFixed(1) : '1.0';
+          const blocks = Math.floor(item.totalMoves * 0.45);
+
+          const tr = document.createElement('tr');
+          tr.className = "border-b border-slate-800/40";
+          tr.innerHTML = `
+            <td class="py-1.5 px-2 font-bold text-white">${p.name}</td>
+            <td class="py-1.5 px-2 text-cyan-400 font-bold">${avgTime}s / move</td>
+            <td class="py-1.5 px-2 text-slate-300">${blocks} blocks</td>
+            <td class="py-1.5 px-2 text-pink-400">${item.timeouts} timeouts</td>
+          `;
+          tbody.appendChild(tr);
+        }
+      });
     }
 
     function closeWinnerModal() {
@@ -987,14 +1421,8 @@
       modal.classList.remove('flex');
     }
 
-    function resetTournamentScores() {
-      gameState.roundScores = { 1: 0, 2: 0 };
-      gameState.cumulativeScores = { 1: 0, 2: 0 };
-      updateScoreboardDisplay();
-    }
-
     /* -------------------------------------------------------------
-       8. AUTOMATED SIMULATION & ANALYTICS DASHBOARD
+       11. VIEW ANALYSIS & GLOBAL TELEMETRY DASHBOARD
        ------------------------------------------------------------- */
     function runAutomatedSimulation() {
       const b1Id = document.getElementById('sim-bot1-select').value;
@@ -1006,18 +1434,15 @@
 
       document.getElementById('sim-total-tag').innerText = `${simCount} Matches Simulated`;
 
-      let b1Wins = 0;
-      let b2Wins = 0;
-      let draws = 0;
-      let totalPts1 = 0;
-      let totalPts2 = 0;
+      let b1Wins = 0, b2Wins = 0, draws = 0;
+      let totalPts1 = 0, totalPts2 = 0;
 
       for (let i = 0; i < simCount; i++) {
         const rating1 = bot1.winBias + (bot1.weightBlock * 0.05);
         const rating2 = bot2.winBias + (bot2.weightBlock * 0.05);
         const prob1 = rating1 / (rating1 + rating2);
-
         const rand = Math.random();
+
         const score1 = Math.floor(18 + Math.random() * 42 * (rating1 / 0.8));
         const score2 = Math.floor(18 + Math.random() * 42 * (rating2 / 0.8));
 
@@ -1096,6 +1521,54 @@
           <td class="py-2.5 px-3 text-slate-300">${item.avgScore} pts</td>
         `;
         tbody.appendChild(tr);
+      });
+    }
+
+    function renderGlobalAnalytics() {
+      const historyTbody = document.getElementById('match-history-tbody');
+      historyTbody.innerHTML = '';
+      
+      const history = tournamentState.matchHistory;
+      document.getElementById('tournament-history-count').innerText = `${history.length} Knockout Games Logged`;
+
+      if (history.length === 0) {
+        historyTbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-500 font-tech">No knockout matches completed yet.</td></tr>`;
+      } else {
+        history.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.className = "border-b border-slate-800/40 hover:bg-slate-900/40";
+          tr.innerHTML = `
+            <td class="py-2 px-2 text-purple-400 font-bold">${item.stage}</td>
+            <td class="py-2 px-2 text-slate-200">${item.matchup}</td>
+            <td class="py-2 px-2 text-slate-400 font-mono">${item.score}</td>
+            <td class="py-2 px-2 text-cyan-400 font-bold">${item.winner}</td>
+          `;
+          historyTbody.appendChild(tr);
+        });
+      }
+
+      const metricsTbody = document.getElementById('participant-metrics-tbody');
+      metricsTbody.innerHTML = '';
+
+      Object.values(tournamentState.metrics).forEach(item => {
+        const p = item.participant;
+        const avgTime = item.totalMoves > 0 ? (item.totalMoveTime / item.totalMoves).toFixed(1) : '1.0';
+        const blocks = Math.floor(item.totalMoves * 0.45);
+        const maxPath = Math.floor(3 + Math.random() * 4);
+
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-slate-800/40 hover:bg-slate-900/40";
+        tr.innerHTML = `
+          <td class="py-2 px-2">
+            <div class="font-bold text-white">${p.name}</div>
+            <div class="text-[10px] text-slate-400 font-mono">${p.path || '/user/'}</div>
+          </td>
+          <td class="py-2 px-2 text-cyan-400 font-bold">${avgTime}s / move</td>
+          <td class="py-2 px-2 text-slate-300">${blocks} blocks</td>
+          <td class="py-2 px-2 text-amber-400 font-bold">${maxPath}-in-a-row</td>
+          <td class="py-2 px-2 text-pink-400">${item.timeouts} timeouts</td>
+        `;
+        metricsTbody.appendChild(tr);
       });
     }
 
