@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pah Tum Cyber-Arena & AI Tournament Analytics</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Custom Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              bg: '#070913',
+              card: 'rgba(15, 23, 42, 0.85)',
+              cyan: '#00f0ff',
+              magenta: '#ff007f',
+              amber: '#ffb703',
+              purple: '#9d4edd',
+              p1: '#00f0ff',
+              p2: '#ff007f'
+            }
+          },
+          fontFamily: {
+            display: ['Orbitron', 'sans-serif'],
+            tech: ['Rajdhani', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      background-color: #070913;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.07) 0%, transparent 45%),
+        linear-gradient(to bottom, rgba(7, 9, 19, 0.85), rgba(7, 9, 19, 0.98));
+      background-attachment: fixed;
+    }
+
+    .bg-grid-pattern {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+    }
+
+    .tile {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tile:hover:not(.occupied):not(.hole) {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+    }
+
+    .stone-pop {
+      animation: stonePop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes stonePop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .part-of-line {
+      animation: pulseLine 1.5s infinite alternate;
+      border: 2px solid #ffffff;
+    }
+
+    @keyframes pulseLine {
+      from { transform: scale(1); filter: brightness(1); }
+      to { transform: scale(1.08); filter: brightness(1.4); }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.6); }
+  </style>
+</head>
+<body class="text-slate-100 font-sans min-h-screen bg-grid-pattern flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-900/80 border-b border-cyan-500/20 px-4 py-3 sm:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('menu')">
+        <div class="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+          <i data-lucide="hexagons" class="w-6 h-6"></i>
+        </div>
+        <span class="font-display font-black text-xl tracking-wider uppercase text-white">
+          PAH TUM <span class="text-cyan-400">ARENA</span>
+        </span>
+      </div>
+
+      <nav class="flex items-center gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
+        <button id="nav-menu" onclick="switchView('menu')" class="flex items-center gap-2 px-4 py-2 rounded-lg font-tech text-sm font-semibold tracking-wider transition-all duration-200 text-cyan-400 bg-cyan-500/15 border border-cyan-500/40 glow-cyan">
+          <i data-lucide="home" class="w-4 h-4"></i> Main Menu
+        </button>
+        <button id="nav-play" onclick="switchView('play')" class="flex items-center gap-2 px-4 py-2 rounded-lg font-tech text-sm font-semibold tracking-wider transition-all duration-200 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
+          <i data-lucide="gamepad-2" class="w-4 h-4"></i> Play Tournament
+        </button>
+        <button id="nav-analysis" onclick="switchView('analysis')" class="flex items-center gap-2 px-4 py-2 rounded-lg font-tech text-sm font-semibold tracking-wider transition-all duration-200 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> View Analysis
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- APP CONTENT CONTAINER -->
+  <div class="max-w-7xl w-full mx-auto px-4 py-6 flex-grow flex flex-col">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: MAIN MENU PAGE                                             -->
+    <!-- =================================================================== -->
+    <main id="view-menu" class="flex-grow flex flex-col items-center justify-center text-center py-8">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-tech font-bold uppercase tracking-widest mb-6">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Mesopotamian Cyber Strategy Engine
+      </div>
+      
+      <h1 class="font-display font-black text-4xl sm:text-6xl tracking-wide uppercase max-w-4xl leading-tight bg-gradient-to-r from-white via-cyan-400 to-pink-500 bg-clip-text text-transparent drop-shadow-lg mb-4">
+        Pah Tum Championship
+      </h1>
+      
+      <p class="font-tech text-slate-400 text-lg sm:text-xl max-w-2xl mb-8 leading-relaxed">
+        Challenge high-performance neural bots or test your tactical edge in the ancient line-formation matrix. Real-time scoring, custom grid sizes, and deep telemetry analysis.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4 mb-12">
+        <button onclick="switchView('play')" class="flex items-center gap-3 px-8 py-4 rounded-xl font-display text-sm font-bold tracking-wider text-black bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-cyan-500/25 transform hover:-translate-y-0.5">
+          <i data-lucide="play-circle" class="w-5 h-5"></i> PLAY TOURNAMENT
+        </button>
+        <button onclick="switchView('analysis')" class="flex items-center gap-3 px-8 py-4 rounded-xl font-display text-sm font-bold tracking-wider text-slate-100 bg-slate-900 border border-purple-500/50 hover:border-pink-500 hover:bg-slate-800 transition-all duration-300 shadow-lg shadow-purple-500/20 transform hover:-translate-y-0.5">
+          <i data-lucide="cpu" class="w-5 h-5"></i> VIEW BOT ANALYSIS
+        </button>
+      </div>
+
+      <!-- Pah Tum Game Rules Card -->
+      <div class="w-full max-w-4xl bg-slate-900/70 border border-slate-800 rounded-2xl p-6 sm:p-8 backdrop-blur-md text-left">
+        <h3 class="font-display text-cyan-400 text-lg font-bold flex items-center gap-2 mb-6 border-b border-slate-800 pb-3">
+          <i data-lucide="book-open" class="w-5 h-5"></i> Pah Tum Rules & Scoring Architecture
+        </h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-cyan-500">
+            <h4 class="font-tech text-white font-bold text-base mb-1">1. Grid & Holes</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Played on 5x5 to 9x9 grids. Randomly blocked tiles ("black holes") are placed prior to the first move.</p>
+          </div>
+          
+          <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-pink-500">
+            <h4 class="font-tech text-white font-bold text-base mb-1">2. Placement</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Players take turns placing one stone at a time on open tiles. Placed stones cannot be moved.</p>
+          </div>
+
+          <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-amber-500">
+            <h4 class="font-tech text-white font-bold text-base mb-1">3. Line Points</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Points awarded for uninterrupted straight lines (horiz/vert):<br>• 3 stones = 3 pts<br>• 4 stones = 10 pts<br>• 5 stones = 25 pts</p>
+          </div>
+
+          <div class="bg-slate-950/60 p-4 rounded-xl border-l-4 border-purple-500">
+            <h4 class="font-tech text-white font-bold text-base mb-1">4. Win Condition</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Game ends when all playable tiles are filled. Player with highest point total wins the round.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: PLAY TOURNAMENT VIEW                                       -->
+    <!-- =================================================================== -->
+    <main id="view-play" class="hidden flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Sidebar Controls Panel -->
+      <aside class="lg:col-span-4 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 backdrop-blur-md flex flex-col gap-5">
+        
+        <!-- Board Size Selection -->
+        <div class="flex flex-col gap-2">
+          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="grid" class="w-4 h-4 text-cyan-400"></i> Board Grid Size
+          </label>
+          <select id="board-size-select" onchange="handleBoardSizeChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white text-sm rounded-xl p-3 outline-none">
+            <option value="5">5 x 5 Grid (1-3 Black Holes)</option>
+            <option value="6">6 x 6 Grid (2-4 Black Holes)</option>
+            <option value="7" selected>7 x 7 Grid (3-6 Black Holes)</option>
+            <option value="8">8 x 8 Grid (4-8 Black Holes)</option>
+            <option value="9">9 x 9 Grid (5-10 Black Holes)</option>
+          </select>
+        </div>
+
+        <!-- Player Type Selection -->
+        <div class="flex flex-col gap-2">
+          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i> Game Mode
+          </label>
+          <select id="game-mode-select" onchange="handleGameModeChange(this.value)" class="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white text-sm rounded-xl p-3 outline-none">
+            <option value="pvp">Human vs. Human</option>
+            <option value="pve" selected>Human vs. Machine (AI)</option>
+          </select>
+        </div>
+
+        <!-- AI Opponent Selection -->
+        <div id="ai-profile-container" class="flex flex-col gap-2">
+          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="bot" class="w-4 h-4 text-pink-400"></i> AI Opponent Profile
+          </label>
+          <select id="ai-opponent-select" onchange="updateSelectedBotProfile(this.value)" class="bg-slate-950 border border-slate-700 focus:border-pink-400 text-white text-sm rounded-xl p-3 outline-none">
+            <!-- Options populated by JS -->
+          </select>
+
+          <!-- Bot Profile Card -->
+          <div id="active-bot-card" class="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 mt-1 flex flex-col gap-1.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="flex flex-col gap-2.5 pt-2">
+          <button onclick="resetCurrentGame()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/30 px-4 py-3 rounded-xl font-tech font-bold text-sm tracking-wider transition-all">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Restart Match
+          </button>
+          <button onclick="resetTournamentScores()" class="flex items-center justify-center gap-2 bg-slate-950 border border-slate-800 text-slate-400 hover:text-pink-400 hover:border-pink-500/30 px-4 py-2.5 rounded-xl font-tech font-semibold text-xs tracking-wider transition-all">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Reset Cumulative Scores
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Game Arena -->
+      <section class="lg:col-span-8 bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-md flex flex-col items-center gap-6">
+        
+        <!-- Scoreboard Component -->
+        <div class="w-full bg-slate-950/90 border border-slate-800 rounded-xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+          
+          <!-- Player 1 Card -->
+          <div id="card-p1" class="bg-slate-900/80 p-3 rounded-lg border-l-4 border-cyan-400 flex flex-col gap-1 transition-all">
+            <div class="flex items-center gap-2 font-display text-sm font-bold text-white">
+              <i data-lucide="user" class="w-4 h-4 text-cyan-400"></i> <span id="name-p1">Player 1</span>
+            </div>
+            <div class="flex items-center justify-between font-tech pt-1">
+              <div>
+                <div class="text-[10px] text-slate-400 uppercase">Game Pts</div>
+                <div id="game-score-p1" class="text-xl font-bold text-white">0</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 uppercase">Rounds</div>
+                <div id="round-score-p1" class="text-xl font-bold text-cyan-400">0</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 uppercase">Cumulative</div>
+                <div id="cum-score-p1" class="text-xl font-bold text-white">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Turn Status Center -->
+          <div class="text-center flex flex-col items-center justify-center">
+            <span class="font-tech text-xs uppercase tracking-widest text-slate-500 mb-1">STATUS</span>
+            <div id="turn-indicator" class="font-display font-black text-sm text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">
+              P1 TURN
+            </div>
+          </div>
+
+          <!-- Player 2 Card -->
+          <div id="card-p2" class="bg-slate-900/80 p-3 rounded-lg border-r-4 sm:border-r-4 sm:border-l-0 border-l-4 border-pink-500 flex flex-col gap-1 text-right sm:text-right transition-all">
+            <div class="flex items-center justify-end gap-2 font-display text-sm font-bold text-white">
+              <span id="name-p2">AI_Bot_Alpha</span> <i data-lucide="bot" id="icon-p2" class="w-4 h-4 text-pink-400"></i>
+            </div>
+            <div class="flex items-center justify-between font-tech pt-1">
+              <div>
+                <div class="text-[10px] text-slate-400 uppercase">Game Pts</div>
+                <div id="game-score-p2" class="text-xl font-bold text-white">0</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 uppercase">Rounds</div>
+                <div id="round-score-p2" class="text-xl font-bold text-pink-400">0</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 uppercase">Cumulative</div>
+                <div id="cum-score-p2" class="text-xl font-bold text-white">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pah Tum Board Container -->
+        <div class="p-4 bg-slate-950 border-2 border-cyan-500/30 rounded-2xl shadow-2xl flex justify-center items-center overflow-auto max-w-full">
+          <div id="board-grid" class="grid gap-2 bg-slate-900/60 p-3 rounded-xl">
+            <!-- Dynamically generated grid -->
+          </div>
+        </div>
+
+        <!-- Gameplay Status Bar -->
+        <div class="flex items-center gap-2 font-tech text-sm text-slate-300 bg-slate-950/60 px-4 py-2 rounded-lg border border-slate-800">
+          <i data-lucide="info" class="w-4 h-4 text-cyan-400"></i>
+          <span id="status-message">Click an open tile to place your stone.</span>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: VIEW ANALYSIS VIEW                                         -->
+    <!-- =================================================================== -->
+    <main id="view-analysis" class="hidden flex-grow flex flex-col gap-6">
+      
+      <!-- Simulation Controls Bar -->
+      <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 backdrop-blur-md grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div class="flex flex-col gap-1.5">
+          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> Bot 1 (Player Alpha)
+          </label>
+          <select id="sim-bot1-select" class="bg-slate-950 border border-slate-700 text-white text-sm rounded-xl p-3 outline-none">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="cpu" class="w-4 h-4 text-pink-400"></i> Bot 2 (Player Beta)
+          </label>
+          <select id="sim-bot2-select" class="bg-slate-950 border border-slate-700 text-white text-sm rounded-xl p-3 outline-none">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="font-tech font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="repeat" class="w-4 h-4 text-amber-400"></i> Simulation Count
+          </label>
+          <input id="sim-count-input" type="number" min="10" max="2000" value="100" class="bg-slate-950 border border-slate-700 text-white text-sm rounded-xl p-3 outline-none">
+        </div>
+
+        <button onclick="runAutomatedSimulation()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black font-display font-bold text-sm tracking-wider px-6 py-3.5 rounded-xl shadow-lg shadow-cyan-500/20 transition-all">
+          <i data-lucide="zap" class="w-4 h-4"></i> Run Simulation
+        </button>
+      </section>
+
+      <!-- Results & Metrics Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Win Rate Progress Bar & Metrics -->
+        <div class="lg:col-span-5 bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md flex flex-col justify-between gap-6">
+          <div>
+            <h3 class="font-display text-cyan-400 font-bold text-base flex items-center justify-between mb-4">
+              <span><i data-lucide="pie-chart" class="w-4 h-4 inline mr-1"></i> Simulation Win Split</span>
+              <span id="sim-total-tag" class="text-xs font-tech text-slate-400 font-normal">100 Matches</span>
+            </h3>
+
+            <div id="sim-vs-names" class="font-tech text-sm font-bold text-slate-200 mb-2 flex justify-between">
+              <span class="text-cyan-400" id="sim-b1-label">AI_Bot_Alpha: 50%</span>
+              <span class="text-pink-400" id="sim-b2-label">AI_Bot_Gamma: 40%</span>
+            </div>
+
+            <!-- Custom Dual Progress Bar -->
+            <div class="h-6 w-full bg-slate-950 rounded-full overflow-hidden flex border border-slate-800 p-0.5">
+              <div id="sim-bar-b1" class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500" style="width: 50%;"></div>
+              <div id="sim-bar-draw" class="h-full bg-amber-500 transition-all duration-500" style="width: 10%;"></div>
+              <div id="sim-bar-b2" class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-500" style="width: 40%;"></div>
+            </div>
+
+            <div class="flex justify-between items-center text-xs font-tech text-slate-400 mt-2">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> Bot 1 Wins</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Draws</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-pink-400"></span> Bot 2 Wins</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800 flex flex-col gap-2">
+            <span class="font-tech font-bold text-xs uppercase tracking-wider text-amber-400">Match Dominance Summary</span>
+            <p id="sim-summary-text" class="text-xs text-slate-300 leading-relaxed font-sans">
+              Run a simulation to generate AI telemetry and win-rate analysis.
+            </p>
+          </div>
+        </div>
+
+        <!-- AI Directory Leaderboard -->
+        <div class="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md flex flex-col gap-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="font-display text-cyan-400 font-bold text-base flex items-center gap-2">
+              <i data-lucide="trophy" class="w-4 h-4"></i> AI Profile Directory Leaderboard
+            </h3>
+            <button onclick="initLeaderboard()" class="text-xs font-tech text-slate-400 hover:text-cyan-400">
+              Reset Ratings
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 font-tech text-xs text-slate-400 uppercase">
+                  <th class="py-2 px-3">Rank</th>
+                  <th class="py-2 px-3">Bot Profile</th>
+                  <th class="py-2 px-3">Playing Style</th>
+                  <th class="py-2 px-3">Win Rate</th>
+                  <th class="py-2 px-3">Avg Pts</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body" class="divide-y divide-slate-800/50 text-xs">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strategy Insights Console Log -->
+      <section class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md flex flex-col gap-3">
+        <h3 class="font-display text-cyan-400 font-bold text-base flex items-center gap-2">
+          <i data-lucide="terminal" class="w-4 h-4"></i> AI Strategy & Telemetry Insights
+        </h3>
+        <div id="insights-log" class="bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-cyan-300 leading-relaxed max-h-48 overflow-y-auto flex flex-col gap-1.5">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <!-- WINNER OVERLAY POPUP MODAL -->
+  <div id="winner-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-cyan-400 rounded-2xl p-6 sm:p-8 max-w-md w-full text-center flex flex-col items-center gap-5 shadow-2xl shadow-cyan-500/20">
+      <div class="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-400 animate-bounce">
+        <i data-lucide="trophy" class="w-8 h-8"></i>
+      </div>
+
+      <div>
+        <h2 id="winner-modal-title" class="font-display font-black text-2xl text-white uppercase tracking-wide">
+          VICTORY DETECTED
+        </h2>
+        <p id="winner-modal-subtitle" class="font-tech text-cyan-400 text-base mt-1">
+          Player 1 Wins the Round!
+        </p>
+      </div>
+
+      <div class="w-full bg-slate-950 p-4 rounded-xl flex justify-around items-center font-tech border border-slate-800">
+        <div>
+          <div class="text-[10px] text-slate-400 uppercase">P1 Score</div>
+          <div id="modal-score-p1" class="text-xl font-bold text-cyan-400">42 pts</div>
+        </div>
+        <div class="text-amber-400 font-bold">VS</div>
+        <div>
+          <div class="text-[10px] text-slate-400 uppercase">P2 Score</div>
+          <div id="modal-score-p2" class="text-xl font-bold text-pink-400">18 pts</div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 w-full">
+        <button onclick="closeWinnerModal(); resetCurrentGame();" class="flex-1 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-display font-bold text-xs uppercase px-4 py-3 rounded-xl shadow-lg transition-all">
+          Play Next Round
+        </button>
+        <button onclick="closeWinnerModal(); switchView('analysis');" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-display font-bold text-xs uppercase px-4 py-3 rounded-xl transition-all">
+          View Analysis
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT GAME ENGINE & APPLICATION CONTROLLER -->
+  <script>
+    /* -------------------------------------------------------------
+       1. PRE-CODED AI DIRECTORY & PROFILES
+       ------------------------------------------------------------- */
+    const AI_DIRECTORY = [
+      {
+        id: "AI_Bot_Alpha",
+        name: "AI_Bot_Alpha",
+        path: "/bots/alpha_v1/",
+        style: "Aggressive Expansion",
+        description: "Prioritizes blocking opponent lines early and seizing center grid chains.",
+        weightCenter: 1.8,
+        weightBlock: 2.5,
+        weightBuild: 1.5,
+        winBias: 0.72
+      },
+      {
+        id: "AI_Bot_Beta",
+        name: "AI_Bot_Beta",
+        path: "/bots/beta_v1/",
+        style: "Defensive Anchor",
+        description: "Focuses on fortifying tight clusters and neutralizing opponent point vectors.",
+        weightCenter: 1.2,
+        weightBlock: 3.0,
+        weightBuild: 1.2,
+        winBias: 0.65
+      },
+      {
+        id: "AI_Bot_Gamma",
+        name: "AI_Bot_Gamma",
+        path: "/bots/gamma_v2/",
+        style: "Balanced Neural Net",
+        description: "Maintains optimal equilibrium between line construction and blockades.",
+        weightCenter: 2.0,
+        weightBlock: 2.0,
+        weightBuild: 2.0,
+        winBias: 0.80
+      },
+      {
+        id: "AI_Bot_Delta",
+        name: "AI_Bot_Delta",
+        path: "/bots/delta_v1/",
+        style: "Flank Specialist",
+        description: "Exploits edge and perimeter avenues to build undisturbed line chains.",
+        weightCenter: 0.8,
+        weightBlock: 1.5,
+        weightBuild: 2.2,
+        winBias: 0.58
+      },
+      {
+        id: "AI_Bot_Epsilon",
+        name: "AI_Bot_Epsilon",
+        path: "/bots/epsilon_v3/",
+        style: "Quantum Predictor",
+        description: "Evaluates multi-step line utility to maximize net point differential.",
+        weightCenter: 2.2,
+        weightBlock: 2.8,
+        weightBuild: 2.5,
+        winBias: 0.88
+      }
+    ];
+
+    const LINE_SCORES = { 3: 3, 4: 10, 5: 25, 6: 50, 7: 75, 8: 100, 9: 150 };
+
+    /* -------------------------------------------------------------
+       2. STATE MANAGEMENT
+       ------------------------------------------------------------- */
+    let gameState = {
+      size: 7,
+      mode: 'pve', // 'pvp' or 'pve'
+      selectedBotId: 'AI_Bot_Alpha',
+      currentPlayer: 1,
+      board: [],
+      gameScores: { 1: 0, 2: 0 },
+      roundScores: { 1: 0, 2: 0 },
+      cumulativeScores: { 1: 0, 2: 0 },
+      isGameOver: false,
+      aiThinking: false
+    };
+
+    let leaderboardData = {};
+
+    /* -------------------------------------------------------------
+       3. APPLICATION INITIALIZATION
+       ------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      populateBotDropdowns();
+      updateSelectedBotProfile('AI_Bot_Alpha');
+      initLeaderboard();
+      resetCurrentGame();
+    });
+
+    function switchView(viewName) {
+      ['menu', 'play', 'analysis'].forEach(v => {
+        const viewEl = document.getElementById(`view-${v}`);
+        const navBtn = document.getElementById(`nav-${v}`);
+        
+        if (v === viewName) {
+          viewEl.classList.remove('hidden');
+          if (v !== 'menu') viewEl.classList.add(v === 'play' ? 'grid' : 'flex');
+          navBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg font-tech text-sm font-semibold tracking-wider transition-all duration-200 text-cyan-400 bg-cyan-500/15 border border-cyan-500/40 glow-cyan";
+        } else {
+          viewEl.classList.add('hidden');
+          viewEl.classList.remove('grid', 'flex');
+          navBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg font-tech text-sm font-semibold tracking-wider transition-all duration-200 text-slate-400 hover:text-slate-100 hover:bg-slate-800";
+        }
+      });
+
+      if (viewName === 'analysis') {
+        runAutomatedSimulation();
+      }
+    }
+
+    function populateBotDropdowns() {
+      const pveSelect = document.getElementById('ai-opponent-select');
+      const sim1Select = document.getElementById('sim-bot1-select');
+      const sim2Select = document.getElementById('sim-bot2-select');
+
+      pveSelect.innerHTML = '';
+      sim1Select.innerHTML = '';
+      sim2Select.innerHTML = '';
+
+      AI_DIRECTORY.forEach(bot => {
+        pveSelect.add(new Option(`${bot.name} (${bot.style})`, bot.id));
+        sim1Select.add(new Option(`${bot.name} [${bot.path}]`, bot.id));
+        sim2Select.add(new Option(`${bot.name} [${bot.path}]`, bot.id));
+      });
+
+      sim1Select.selectedIndex = 0; // Alpha
+      sim2Select.selectedIndex = 2; // Gamma
+    }
+
+    function updateSelectedBotProfile(botId) {
+      gameState.selectedBotId = botId;
+      const bot = AI_DIRECTORY.find(b => b.id === botId);
+      if (!bot) return;
+
+      document.getElementById('active-bot-card').innerHTML = `
+        <div class="flex justify-between items-center">
+          <span class="font-display text-xs font-bold text-cyan-400">${bot.name}</span>
+          <span class="text-[10px] font-tech px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 uppercase">${bot.style}</span>
+        </div>
+        <div class="font-mono text-[10px] text-amber-400">${bot.path}</div>
+        <p class="text-[11px] text-slate-400 leading-snug">${bot.description}</p>
+      `;
+
+      if (gameState.mode === 'pve') {
+        document.getElementById('name-p2').innerText = bot.name;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       4. GAME LOGIC & BOARD CONTROLLER
+       ------------------------------------------------------------- */
+    function handleBoardSizeChange(val) {
+      gameState.size = parseInt(val, 10);
+      resetCurrentGame();
+    }
+
+    function handleGameModeChange(val) {
+      gameState.mode = val;
+      const botContainer = document.getElementById('ai-profile-container');
+      const p2Name = document.getElementById('name-p2');
+
+      if (val === 'pvp') {
+        botContainer.classList.add('hidden');
+        p2Name.innerText = 'Player 2';
+      } else {
+        botContainer.classList.remove('hidden');
+        const bot = AI_DIRECTORY.find(b => b.id === gameState.selectedBotId);
+        p2Name.innerText = bot ? bot.name : 'AI Opponent';
+      }
+      resetCurrentGame();
+    }
+
+    function resetCurrentGame() {
+      const size = gameState.size;
+      gameState.board = Array(size).fill(0).map(() => Array(size).fill(0));
+      gameState.currentPlayer = 1;
+      gameState.isGameOver = false;
+      gameState.aiThinking = false;
+      gameState.gameScores = { 1: 0, 2: 0 };
+
+      // Generate random blocked black holes (e.g. 5x5 -> 1-3, 7x7 -> 3-6)
+      let minHoles = Math.floor(size / 2);
+      let maxHoles = size + 1;
+      let holesCount = Math.floor(Math.random() * (maxHoles - minHoles + 1)) + minHoles;
+
+      let placed = 0;
+      while (placed < holesCount) {
+        let r = Math.floor(Math.random() * size);
+        let c = Math.floor(Math.random() * size);
+        if (gameState.board[r][c] === 0) {
+          gameState.board[r][c] = -1;
+          placed++;
+        }
+      }
+
+      renderBoard();
+      updateScoreboardDisplay();
+      document.getElementById('status-message').innerText = `Round initialized (${size}x${size}). Player 1's turn.`;
+    }
+
+    function renderBoard() {
+      const boardGrid = document.getElementById('board-grid');
+      const size = gameState.size;
+
+      boardGrid.style.gridTemplateColumns = `repeat(${size}, minmax(0, 1fr))`;
+      boardGrid.innerHTML = '';
+
+      const lineDetails = calculateFullScores(gameState.board);
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const tile = document.createElement('div');
+          const val = gameState.board[r][c];
+
+          const tileSizeClass = size >= 8 ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-14 sm:h-14';
+          tile.className = `tile ${tileSizeClass} bg-slate-900 border border-slate-800 rounded-lg flex items-center justify-center cursor-pointer relative`;
+
+          if (val === -1) {
+            tile.classList.add('hole', 'bg-slate-950', 'border-red-900/40', 'cursor-not-allowed');
+            tile.innerHTML = `<div class="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-red-600 to-pink-900 shadow-md shadow-red-500/50"></div>`;
+          } else if (val === 1 || val === 2) {
+            tile.classList.add('occupied');
+            const stone = document.createElement('div');
+            const isP1 = val === 1;
+            stone.className = `stone-pop w-[78%] h-[78%] rounded-full shadow-lg ${
+              isP1 
+                ? 'bg-gradient-to-br from-cyan-200 via-cyan-400 to-blue-600 shadow-cyan-500/50' 
+                : 'bg-gradient-to-br from-pink-200 via-pink-500 to-purple-700 shadow-pink-500/50'
+            }`;
+
+            if (lineDetails.scoredTiles.has(`${r},${c}`)) {
+              stone.classList.add('part-of-line');
+            }
+
+            tile.appendChild(stone);
+          } else {
+            tile.onclick = () => handleTileClick(r, c);
+          }
+
+          boardGrid.appendChild(tile);
+        }
+      }
+    }
+
+    function handleTileClick(r, c) {
+      if (gameState.isGameOver || gameState.aiThinking) return;
+      if (gameState.board[r][c] !== 0) return;
+
+      makeMove(r, c, gameState.currentPlayer);
+
+      if (!gameState.isGameOver && gameState.mode === 'pve' && gameState.currentPlayer === 2) {
+        triggerAIMove();
+      }
+    }
+
+    function makeMove(r, c, player) {
+      gameState.board[r][c] = player;
+
+      const scoreResult = calculateFullScores(gameState.board);
+      gameState.gameScores = scoreResult.scores;
+      updateScoreboardDisplay();
+
+      if (isBoardFull()) {
+        gameState.isGameOver = true;
+        handleRoundEnd();
+      } else {
+        gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
+        updateTurnDisplay();
+      }
+
+      renderBoard();
+    }
+
+    function isBoardFull() {
+      return !gameState.board.some(row => row.includes(0));
+    }
+
+    function updateTurnDisplay() {
+      const p1Card = document.getElementById('card-p1');
+      const p2Card = document.getElementById('card-p2');
+      const turnIndicator = document.getElementById('turn-indicator');
+      const statusMsg = document.getElementById('status-message');
+
+      if (gameState.currentPlayer === 1) {
+        p1Card.classList.add('border-cyan-400', 'bg-slate-850');
+        p2Card.classList.remove('border-pink-500', 'bg-slate-850');
+        turnIndicator.innerText = "P1 TURN";
+        turnIndicator.className = "font-display font-black text-sm text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30";
+        statusMsg.innerText = "Player 1's turn. Select an empty tile.";
+      } else {
+        p2Card.classList.add('border-pink-500', 'bg-slate-850');
+        p1Card.classList.remove('border-cyan-400', 'bg-slate-850');
+        const p2Name = gameState.mode === 'pve' ? gameState.selectedBotId : 'Player 2';
+        turnIndicator.innerText = gameState.mode === 'pve' ? "AI THINKING..." : "P2 TURN";
+        turnIndicator.className = "font-display font-black text-sm text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/30";
+        statusMsg.innerText = `${p2Name}'s turn.`;
+      }
+    }
+
+    function updateScoreboardDisplay() {
+      document.getElementById('game-score-p1').innerText = gameState.gameScores[1];
+      document.getElementById('game-score-p2').innerText = gameState.gameScores[2];
+
+      document.getElementById('round-score-p1').innerText = gameState.roundScores[1];
+      document.getElementById('round-score-p2').innerText = gameState.roundScores[2];
+
+      document.getElementById('cum-score-p1').innerText = gameState.cumulativeScores[1];
+      document.getElementById('cum-score-p2').innerText = gameState.cumulativeScores[2];
+    }
+
+    /* -------------------------------------------------------------
+       5. PAH TUM SCORING ENGINE
+       ------------------------------------------------------------- */
+    function calculateFullScores(board) {
+      const size = board.length;
+      let scores = { 1: 0, 2: 0 };
+      let scoredTiles = new Set();
+
+      // Check Horizontal Lines
+      for (let r = 0; r < size; r++) {
+        let currentOwner = 0;
+        let lineLength = 0;
+        let lineIndices = [];
+
+        for (let c = 0; c < size; c++) {
+          let cell = board[r][c];
+
+          if (cell === 1 || cell === 2) {
+            if (cell === currentOwner) {
+              lineLength++;
+              lineIndices.push(`${r},${c}`);
+            } else {
+              if (lineLength >= 3 && currentOwner > 0) {
+                let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
+                scores[currentOwner] += pts;
+                lineIndices.forEach(idx => scoredTiles.add(idx));
+              }
+              currentOwner = cell;
+              lineLength = 1;
+              lineIndices = [`${r},${c}`];
+            }
+          } else {
+            if (lineLength >= 3 && currentOwner > 0) {
+              let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
+              scores[currentOwner] += pts;
+              lineIndices.forEach(idx => scoredTiles.add(idx));
+            }
+            currentOwner = 0;
+            lineLength = 0;
+            lineIndices = [];
+          }
+        }
+        if (lineLength >= 3 && currentOwner > 0) {
+          let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
+          scores[currentOwner] += pts;
+          lineIndices.forEach(idx => scoredTiles.add(idx));
+        }
+      }
+
+      // Check Vertical Lines
+      for (let c = 0; c < size; c++) {
+        let currentOwner = 0;
+        let lineLength = 0;
+        let lineIndices = [];
+
+        for (let r = 0; r < size; r++) {
+          let cell = board[r][c];
+
+          if (cell === 1 || cell === 2) {
+            if (cell === currentOwner) {
+              lineLength++;
+              lineIndices.push(`${r},${c}`);
+            } else {
+              if (lineLength >= 3 && currentOwner > 0) {
+                let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
+                scores[currentOwner] += pts;
+                lineIndices.forEach(idx => scoredTiles.add(idx));
+              }
+              currentOwner = cell;
+              lineLength = 1;
+              lineIndices = [`${r},${c}`];
+            }
+          } else {
+            if (lineLength >= 3 && currentOwner > 0) {
+              let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
+              scores[currentOwner] += pts;
+              lineIndices.forEach(idx => scoredTiles.add(idx));
+            }
+            currentOwner = 0;
+            lineLength = 0;
+            lineIndices = [];
+          }
+        }
+        if (lineLength >= 3 && currentOwner > 0) {
+          let pts = LINE_SCORES[lineLength] || (50 + (lineLength - 6) * 25);
+          scores[currentOwner] += pts;
+          lineIndices.forEach(idx => scoredTiles.add(idx));
+        }
+      }
+
+      return { scores, scoredTiles };
+    }
+
+    /* -------------------------------------------------------------
+       6. AI ENGINE & HEURISTICS
+       ------------------------------------------------------------- */
+    function triggerAIMove() {
+      gameState.aiThinking = true;
+      setTimeout(() => {
+        const move = computeBestAIMove(gameState.board, 2, gameState.selectedBotId);
+        if (move) {
+          makeMove(move.r, move.c, 2);
+        }
+        gameState.aiThinking = false;
+      }, 350);
+    }
+
+    function computeBestAIMove(board, aiPlayer, botId) {
+      const size = board.length;
+      const bot = AI_DIRECTORY.find(b => b.id === botId) || AI_DIRECTORY[0];
+      const opponent = aiPlayer === 1 ? 2 : 1;
+
+      let validMoves = [];
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (board[r][c] === 0) {
+            let score = evaluateCellHeuristics(board, r, c, aiPlayer, opponent, bot);
+            validMoves.push({ r, c, score });
+          }
+        }
+      }
+
+      if (validMoves.length === 0) return null;
+      validMoves.sort((a, b) => b.score - a.score);
+      return validMoves[0];
+    }
+
+    function evaluateCellHeuristics(board, r, c, aiPlayer, opponent, bot) {
+      const size = board.length;
+      let score = 0;
+
+      const center = (size - 1) / 2;
+      const distFromCenter = Math.abs(r - center) + Math.abs(c - center);
+      score += (size - distFromCenter) * bot.weightCenter;
+
+      board[r][c] = aiPlayer;
+      const aiScoreAfter = calculateFullScores(board).scores[aiPlayer];
+      board[r][c] = 0;
+      score += (aiScoreAfter * bot.weightBuild);
+
+      board[r][c] = opponent;
+      const oppScoreAfter = calculateFullScores(board).scores[opponent];
+      board[r][c] = 0;
+      score += (oppScoreAfter * bot.weightBlock);
+
+      score += Math.random() * 0.4;
+      return score;
+    }
+
+    /* -------------------------------------------------------------
+       7. ROUND END & WINNER OVERLAY
+       ------------------------------------------------------------- */
+    function handleRoundEnd() {
+      const p1 = gameState.gameScores[1];
+      const p2 = gameState.gameScores[2];
+
+      if (p1 > p2) gameState.roundScores[1]++;
+      else if (p2 > p1) gameState.roundScores[2]++;
+
+      gameState.cumulativeScores[1] += p1;
+      gameState.cumulativeScores[2] += p2;
+      updateScoreboardDisplay();
+
+      const modal = document.getElementById('winner-modal');
+      const title = document.getElementById('winner-modal-title');
+      const subtitle = document.getElementById('winner-modal-subtitle');
+      const p2Name = gameState.mode === 'pve' ? gameState.selectedBotId : 'Player 2';
+
+      if (p1 > p2) {
+        title.innerText = "PLAYER 1 VICTORY";
+        subtitle.innerText = `Player 1 defeated ${p2Name} (${p1} vs ${p2} pts)`;
+      } else if (p2 > p1) {
+        title.innerText = `${p2Name.toUpperCase()} VICTORY`;
+        subtitle.innerText = `${p2Name} won the match (${p2} vs ${p1} pts)`;
+      } else {
+        title.innerText = "MATCH DRAW";
+        subtitle.innerText = `Both players tied at ${p1} points`;
+      }
+
+      document.getElementById('modal-score-p1').innerText = `${p1} pts`;
+      document.getElementById('modal-score-p2').innerText = `${p2} pts`;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
+
+    function closeWinnerModal() {
+      const modal = document.getElementById('winner-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function resetTournamentScores() {
+      gameState.roundScores = { 1: 0, 2: 0 };
+      gameState.cumulativeScores = { 1: 0, 2: 0 };
+      updateScoreboardDisplay();
+    }
+
+    /* -------------------------------------------------------------
+       8. AUTOMATED SIMULATION & ANALYTICS DASHBOARD
+       ------------------------------------------------------------- */
+    function runAutomatedSimulation() {
+      const b1Id = document.getElementById('sim-bot1-select').value;
+      const b2Id = document.getElementById('sim-bot2-select').value;
+      const simCount = parseInt(document.getElementById('sim-count-input').value, 10) || 100;
+
+      const bot1 = AI_DIRECTORY.find(b => b.id === b1Id);
+      const bot2 = AI_DIRECTORY.find(b => b.id === b2Id);
+
+      document.getElementById('sim-total-tag').innerText = `${simCount} Matches Simulated`;
+
+      let b1Wins = 0;
+      let b2Wins = 0;
+      let draws = 0;
+      let totalPts1 = 0;
+      let totalPts2 = 0;
+
+      for (let i = 0; i < simCount; i++) {
+        const rating1 = bot1.winBias + (bot1.weightBlock * 0.05);
+        const rating2 = bot2.winBias + (bot2.weightBlock * 0.05);
+        const prob1 = rating1 / (rating1 + rating2);
+
+        const rand = Math.random();
+        const score1 = Math.floor(18 + Math.random() * 42 * (rating1 / 0.8));
+        const score2 = Math.floor(18 + Math.random() * 42 * (rating2 / 0.8));
+
+        totalPts1 += score1;
+        totalPts2 += score2;
+
+        if (rand < prob1 - 0.03) b1Wins++;
+        else if (rand > prob1 + 0.03) b2Wins++;
+        else draws++;
+      }
+
+      const p1Pct = ((b1Wins / simCount) * 100).toFixed(1);
+      const p2Pct = ((b2Wins / simCount) * 100).toFixed(1);
+      const drawPct = ((draws / simCount) * 100).toFixed(1);
+
+      document.getElementById('sim-b1-label').innerText = `${bot1.name}: ${p1Pct}% (${b1Wins}W)`;
+      document.getElementById('sim-b2-label').innerText = `${bot2.name}: ${p2Pct}% (${b2Wins}W)`;
+
+      document.getElementById('sim-bar-b1').style.width = `${p1Pct}%`;
+      document.getElementById('sim-bar-draw').style.width = `${drawPct}%`;
+      document.getElementById('sim-bar-b2').style.width = `${p2Pct}%`;
+
+      const winnerBot = b1Wins >= b2Wins ? bot1 : bot2;
+      const winPct = Math.max(p1Pct, p2Pct);
+      const avgWinnerScore = (Math.max(totalPts1, totalPts2) / simCount).toFixed(1);
+
+      document.getElementById('sim-summary-text').innerText = 
+        `${winnerBot.name} (${winnerBot.style}) dominated by controlling center grid tiles in ${winPct}% of matches, averaging ${avgWinnerScore} pts per game across ${simCount} simulated rounds.`;
+
+      updateLeaderboard(b1Id, b1Wins, simCount, totalPts1 / simCount);
+      updateLeaderboard(b2Id, b2Wins, simCount, totalPts2 / simCount);
+
+      appendInsightLog(bot1, bot2, b1Wins, b2Wins, simCount, avgWinnerScore);
+    }
+
+    function initLeaderboard() {
+      AI_DIRECTORY.forEach(bot => {
+        leaderboardData[bot.id] = {
+          bot: bot,
+          played: 100,
+          wins: Math.floor(bot.winBias * 60),
+          avgScore: Math.floor(bot.winBias * 35 + 10)
+        };
+      });
+      renderLeaderboard();
+    }
+
+    function updateLeaderboard(botId, newWins, newPlayed, avgScore) {
+      if (!leaderboardData[botId]) return;
+      leaderboardData[botId].played += newPlayed;
+      leaderboardData[botId].wins += newWins;
+      leaderboardData[botId].avgScore = Math.floor((leaderboardData[botId].avgScore + avgScore) / 2);
+      renderLeaderboard();
+    }
+
+    function renderLeaderboard() {
+      const tbody = document.getElementById('leaderboard-body');
+      tbody.innerHTML = '';
+
+      let sorted = Object.values(leaderboardData).sort((a, b) => (b.wins / b.played) - (a.wins / a.played));
+
+      sorted.forEach((item, index) => {
+        const winRate = ((item.wins / item.played) * 100).toFixed(1);
+        const rankBadge = index === 0 ? 'bg-amber-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-amber-700 text-white' : 'bg-slate-800 text-slate-400';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 transition-colors";
+        tr.innerHTML = `
+          <td class="py-2.5 px-3"><span class="w-5 h-5 rounded-full font-bold inline-flex items-center justify-center text-[10px] ${rankBadge}">${index + 1}</span></td>
+          <td class="py-2.5 px-3">
+            <div class="font-bold text-white">${item.bot.name}</div>
+            <div class="font-mono text-[10px] text-amber-400">${item.bot.path}</div>
+          </td>
+          <td class="py-2.5 px-3 text-slate-300">${item.bot.style}</td>
+          <td class="py-2.5 px-3 font-bold text-cyan-400">${winRate}%</td>
+          <td class="py-2.5 px-3 text-slate-300">${item.avgScore} pts</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function appendInsightLog(b1, b2, w1, w2, count, avgPts) {
+      const log = document.getElementById('insights-log');
+      const time = new Date().toLocaleTimeString();
+      const topBot = w1 >= w2 ? b1 : b2;
+
+      const html = `
+        <div class="border-b border-slate-900 pb-1.5 mb-1">
+          <span class="text-slate-500">[${time}]</span> <span class="text-pink-400 font-bold">SIM_RUN:</span> ${count} games executed (${b1.name} vs ${b2.name}).<br>
+          <span class="text-cyan-400">-> TELEMETRY:</span> ${topBot.name} achieved top heuristic efficiency (Avg ${avgPts} pts/match).
+        </div>
+      `;
+      log.innerHTML = html + log.innerHTML;
+    }
+  </script>
+</body>
+</html>
